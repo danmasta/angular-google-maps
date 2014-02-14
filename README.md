@@ -140,7 +140,7 @@ Id: string, integer - unique id of object, used in search service
   </tr>
   <tr>
     <td><pre>geo()</pre></td>
-    <td>Returns a promise object with one function <code>locate()</code which is used to run a callback after the future object has returned. Usage would look like this: <pre>map.geo().locate().then( function( position ) { 
+    <td>Returns a promise object with one function <code>locate()</code> which is used to run a callback after the future object has returned. Usage would look like this: <pre>map.geo().locate().then( function( position ) { 
     //do stuff 
     });</pre>
   </tr>
