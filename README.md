@@ -42,8 +42,6 @@ The rest of the options can be added by setting attributes on any dom element. T
 ## Dependencies
 * Google Maps Api - ```//maps.google.com/maps/api/js?sensor=true```
 * Angular.js - ```//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js```
-
-
 * Geometry library is needed only if using the direction service. Be sure to include the library parameter in your google api url like this: ```//maps.google.com/maps/api/js?sensor=true&libraries=geometry```
 
 ## Loading Markers
