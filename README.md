@@ -21,7 +21,7 @@ Creates a google map element on your page. Configuration can be done with html t
 * Easy to override all default options for each Google maps service class
 
 ## How it works
-This plugin makes use angular directives to utilize each service or functionality. There is one element required: ```<google-map>```
+This plugin makes use angular directives to utilize each google maps service or functionality. There is one element required: ```<google-map>```
 
 The rest of the options can be added by setting attributes on any dom element. This allows for excellent customization of styles and user experience. If you were to utilize every option, the minimal code would look something like this:
 
@@ -41,3 +41,23 @@ The rest of the options can be added by setting attributes on any dom element. T
 
 ## Loading Markers
 By default, markers are loaded using angulars $http service, and expects a json response of objects to use for markers. The marker service makes use of only three fields that are required, any other data returned is set inside of a data property on each marker. This makes it really easy for you to customize the infowindow templates, dropdown select template, or add your own custom directives to extend and use the data however you like. The minimum fields for loading markers are:
+| Latitude | string - decimal format latitude integer |
+| Longitude | string - decimal format longitude integer |
+| id | string, integer - unique id of object, used in search service |
+
+
+```latitude: decimal latitude string```
+```longitude: decimal longitude string```
+```id: uniqe id number for each object```
+
+
+
+
+
+
+
+
+
+
+
+
