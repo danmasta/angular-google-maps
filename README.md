@@ -144,8 +144,8 @@ Id: string, integer - unique id of object, used in search service
     <pre>
     map.geo().locate().then( function( position ) { 
       //do stuff 
-    });
-    </pre>
+    });</pre>
+    Note that this function has a fallback incase geolocation is not supported, or fails, in either case the callback parameter is a Google maps latlng object
   </tr>
 </table>
 
