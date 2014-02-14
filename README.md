@@ -39,14 +39,24 @@ The rest of the options can be added by setting attributes on any dom element. T
 </section>
 ```
 
+## Dependencies
+* Google Maps Api - ```//maps.google.com/maps/api/js?sensor=true```
+* Angular.js - ```//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js```
+
+
+* Geometry library is needed only if using the direction service. Be sure to include the library parameter in your google api url like this: ```//maps.google.com/maps/api/js?sensor=true&libraries=geometry```
+
 ## Loading Markers
-By default, markers are loaded using angulars $http service, and expects a json response of objects to use for markers. The marker service makes use of only three fields that are required, any other data returned is set inside of a data property on each marker. This makes it really easy for you to customize the infowindow templates, dropdown select template, or add your own custom directives to extend and use the data however you like. The minimum fields for loading markers are:
+By default, markers are loaded using angular's $http service, and expects a json response of objects to use for markers. The marker service makes use of only three fields that are required, any other data returned is set inside of a data property on each marker. This makes it really easy for you to customize the infowindow templates, dropdown select template, or add your own custom directives to extend and use the data however you like. The minimum fields for loading markers are:
 
 ```
 Latitude: string - decimal format latitude integer
 Longitude: string - decimal format longitude integer
-id: string, integer - unique id of object, used in search service
+Id: string, integer - unique id of object, used in search service
 ```
+
+
+
 
 
 
