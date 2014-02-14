@@ -123,6 +123,25 @@ Id: string, integer - unique id of object, used in search service
     <td><pre>panoramaOptions</pre></td>
     <td><a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#StreetViewPanoramaOptions">google.maps.StreetViewPanoramaOptions object</a></td>
   </tr>
+  <tr>
+    <th colspan="2" align="left"><a href="#map_service">Map</a></th>
+  <tr>
+  <tr>
+    <th align="left">Method</th>
+    <th align="left">Description</th>
+  <tr>
+  <tr>
+    <td><pre>offSetMap( latlng )</pre></td>
+    <td>accepts a Google maps latlng object and 'offsets' the map to that position. Offset is based on the value defined in the offset attribute on the <code>google-map</code> element. The offset value is the denomiator for dividing the window width - ie if offset="6" then offset value equals <code>window.width()/6</code></td>
+  </tr>
+  <tr>
+    <td><pre>apply()</pre></td>
+    <td>Runs angular <code>$apply</code> on the <code>$rootScope</code> to digest any outside changes</td>
+  </tr>
+  <tr>
+    <td><pre>geo()</pre></td>
+    <td>Loads json objects from specified url, sends them to be parsed and added to map</td>
+  </tr>
 </table>
 
 
