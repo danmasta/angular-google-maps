@@ -145,7 +145,7 @@ Id: string, integer - unique id of object, used in search service
     map.geo().locate().then( function( position ) { 
       //do stuff 
     });</pre>
-    Note that this function has a fallback incase geolocation is not supported, or fails, in either case the callback parameter is a <a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#LatLng">google.maps.LatLng class</a>
+    Note that this function has a fallback in case geolocation is not supported or fails, in either case the callback parameter is a <a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#LatLng">google.maps.LatLng class</a>
   </tr>
   <tr>
     <td><pre>getDirections()</pre></td>
@@ -154,7 +154,16 @@ Id: string, integer - unique id of object, used in search service
     map.getDirections().directions().then( function( directions ) { 
       //do stuff 
     });</pre>
-    Callback parameter is the <a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#DirectionsResult">google.maps.DirectionsResult object</a>
+    Callback parameter is a <a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#DirectionsResult">google.maps.DirectionsResult object</a>
+  </tr>
+  <tr>
+    <td><pre>getStreetview( marker )</pre></td>
+    <td>Accepts a Google maps marker object and returns a promise object with one function <code>streetview()</code> which is used to run a callback after the future object has returned. Usage would look like this:
+    <pre>
+    map.getStreetview( marker ).streetview().then( function( position ) { 
+      //do stuff 
+    });</pre>
+    Callback parameter is a <a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#StreetViewPanoramaData">google.maps.StreetViewPanoramaData object</a>
   </tr>
 </table>
 
