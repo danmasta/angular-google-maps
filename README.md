@@ -132,7 +132,7 @@ Id: string, integer - unique id of object, used in search service
   <tr>
   <tr>
     <td><pre>offSetMap( latlng )</pre></td>
-    <td>accepts a Google maps latlng object and 'offsets' the map to that position. Offset is based on the value defined in the offset attribute on the <code>google-map</code> element. The offset value is the denomiator for dividing the window width - ie if offset="6" then offset value equals <code>window.width()/6</code></td>
+    <td>Accepts a Google maps latlng object and 'offsets' the map to that position. Offset is based on the value defined in the offset attribute on the <code>google-map</code> element. The offset value is the denomiator for dividing the window width, if offset="6" then offset value equals <code>window.width()/6</code></td>
   </tr>
   <tr>
     <td><pre>apply()</pre></td>
@@ -140,7 +140,9 @@ Id: string, integer - unique id of object, used in search service
   </tr>
   <tr>
     <td><pre>geo()</pre></td>
-    <td>Loads json objects from specified url, sends them to be parsed and added to map</td>
+    <td>Returns a promise object with one function <code>locate()</code which is used to run a callback after the future object has returned. Usage would look like this: <pre>map.geo().locate().then( function( position ) { 
+    //do stuff 
+    });</pre>
   </tr>
 </table>
 
