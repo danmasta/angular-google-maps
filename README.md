@@ -84,7 +84,27 @@ Id: string, integer - unique id of object, used in search service
     <td><pre>getMarkerById( id )</pre></td>
     <td>Returns a Google maps marker object by searching against the unique id passed when marker was first parsed.</td>
   </tr>
+  <tr>
+    <th colspan="2" align="left"><a href="#options_service">Options</a></th>
+  <tr>
+  <tr>
+    <th align="left">Method</th>
+    <th align="left">Description</th>
+  <tr>
+  <tr>
+    <td><pre>getOptions()</pre></td>
+    <td>Returns a json object of Google maps service class options</td>
+  </tr>
+  <tr>
+    <th align="left">Property</th>
+    <th align="left">Description</th>
+  <tr>
+  <tr>
+    <td><pre>mainBounds</pre></td>
+    <td>Google map bounds object</td>
+  </tr>
 </table>
+
 
 
 
