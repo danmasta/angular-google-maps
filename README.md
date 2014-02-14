@@ -101,7 +101,27 @@ Id: string, integer - unique id of object, used in search service
   <tr>
   <tr>
     <td><pre>mainBounds</pre></td>
-    <td>Google map bounds object</td>
+    <td><a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#LatLngBounds">google.maps.LatLngBounds class contructor</a></td>
+  </tr>
+  <tr>
+    <td><pre>mapDefaults</pre></td>
+    <td><a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#MapOptions">google.maps.MapOptions object</a></td>
+  </tr>
+  <tr>
+    <td><pre>markerImage</pre></td>
+    <td><a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#Icon">google.maps.Icon object</a></td>
+  </tr>
+  <tr>
+    <td><pre>polyLineOptions</pre></td>
+    <td><a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#PolylineOptions">google.maps.PolylineOptions object</a></td>
+  </tr>
+  <tr>
+    <td><pre>circleOptions</pre></td>
+    <td><a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#CircleOptions">google.maps.CircleOptions object</a></td>
+  </tr>
+  <tr>
+    <td><pre>panoramaOptions</pre></td>
+    <td><a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#StreetViewPanoramaOptions">google.maps.StreetViewPanoramaOptions object</a></td>
   </tr>
 </table>
 
