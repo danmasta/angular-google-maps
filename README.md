@@ -165,6 +165,14 @@ Id: string, integer - unique id of object, used in search service
     });</pre>
     Callback parameter is a <a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#StreetViewPanoramaData">google.maps.StreetViewPanoramaData object</a>
   </tr>
+  <tr>
+    <td><pre>setVisible( element )</pre></td>
+    <td>Accepts an angular or jQuery element object, lightly fades the element into view</td>
+  </tr>
+  <tr>
+    <td><pre>setHidden( element )</pre></td>
+    <td>Accepts an angular or jQuery element object, lightly fades the element out of view</td>
+  </tr>
 </table>
 
 
