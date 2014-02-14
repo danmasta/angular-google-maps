@@ -50,8 +50,41 @@ By default, markers are loaded using angular's $http service, and expects a json
 ```
 Latitude: string - decimal format latitude integer
 Longitude: string - decimal format longitude integer
+Title: string - optional, used as marker title and default infowindow text
 Id: string, integer - unique id of object, used in search service
 ```
+
+## Services
+
+<table>
+  <tr>
+    <th colspan="2" align="left"><a href="#markers_service">Markers</a></th>
+  <tr>
+  <tr>
+    <th align="left">Method</th>
+    <th align="left">Description</th>
+  <tr>
+  <tr>
+    <td>loadMarkers()</td>
+    <td>Loads json objects from specified url, sends them to be parsed and added to map</td>
+  </tr>
+  <tr>
+    <td>parseMarkers( data )</td>
+    <td>Parses json objects into Google maps marker class objects. Requires latitude, and longitude properties</td>
+  </tr>
+  <tr>
+    <td>addMarker( marker, i )</td>
+    <td>Expects an already parsed google maps marker object and adds it to the map. Optional index parameter can be passed when adding multiple markers, this is used to set the delay for the marker drop animation</td>
+  </tr>
+  <tr>
+    <td>getMarkers()</td>
+    <td>Returns an object array of all the current markers loaded in the map</td>
+  </tr>
+  <tr>
+    <td>getMarkerById( id )</td>
+    <td>Returns a Google maps marker object by searching against the unique id passed when marker was first parsed.</td>
+  </tr>
+</table>
 
 
 
