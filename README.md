@@ -243,7 +243,7 @@ id: 25 //string, integer - unique id of object, used in search service
   <tr>
     <td><pre>auto-complete-results</pre></td>
     <td>Attribute</td>
-    <td>Enables and defines the element to be used as the auto-complete results container. Utilizes an <code>ng-repeat</code> template to build out the list of search results. Default template is a very simple <code>&lt;li&gt;</code> element, but you can very easy override this template to create any structure and data combination using any data that is returned in the original json marker request. Any data returned is stored within the <code>data:</code> property of each marker. So you can access any property by utilizing <code>{{data.whatever.property}}</code> format</td>
+    <td>Enables and defines the element to be used as the auto-complete results container. Utilizes an <code>ng-repeat</code> template to build out the list of search results. Default template is a very simple <code>&lt;li&gt;</code> element, but you can very easily override this template to create any structure and data combination you want by using the data that was returned in the original json marker request. Any information that was returned is stored within the <code>data:</code> property of each marker. So you can access any property by utilizing <code>{{data.whatever.property}}</code> format</td>
   </tr>
 </table>
 
