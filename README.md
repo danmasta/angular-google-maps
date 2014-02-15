@@ -253,17 +253,21 @@ If you got this far and you are now thinking "How did he build so much functiona
 
 <table>
   <tr>
-    <th colspan="2" align="left"><a href="#events">Events</a></th>
+    <th colspan="3" align="left"><a href="#events">Events</a></th>
   <tr>
   <tr>
     <th align="left">Event</th>
-    <th align="left">Scope</th>
     <th align="left">Type</th>
+    <th align="left">Scope</th>
     <th align="left">Description</th>
   <tr>
   <tr>
-    <td><pre>loadMarkers( url, params )</pre></td>
-    <td>Accepts a url string, and an optional list of search parameters in json format <code>param:'value'</code>. Loads json objects from specified url, sends them to be parsed and added to map</td>
+    <td><pre>marker.add</pre></td>
+    <td>$broadcast</td>
+    <td>$rootScope</td>
+    <td>Event is broadcasted each time a marker is added to the map. Contains marker and optional index param. Callback function would look like: <pre>( function( marker, i ) {
+      //do stuff
+    });</pre></td>
   </tr>
 
 
