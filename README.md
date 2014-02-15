@@ -289,9 +289,13 @@ $rootScope.$on( 'marker.add', function( marker, i ) {
       <td><pre>geo.complete</pre></td>
       <td>$emit</td>
       <td>$scope</td>
-      <td>Event is emited when the <code>[direction-service]</code> controller is intialized. Callback param is 'position'. Callback functuin would look like: <pre>$scope.$on( 'geo.complete', function( position ) {
-      //do stuff
-      });</pre></td>
+      <td>Event is emited when the <code>[direction-service]</code> controller has completed succesfully. Callback param is 'position'. Callback function would look like:
+      <pre>
+$scope.$on( 'geo.complete', function( position ) {
+  //do stuff
+});
+</pre>
+      </td>
     </tr>
   </tr>
 
