@@ -238,7 +238,7 @@ id: 25 //string, integer - unique id of object, used in search service
   <tr>
     <td><pre>auto-complete</pre></td>
     <td>Attribute</td>
-    <td>Enables auto complete style search functionality for all markers loaded in the map. This should be used on an input element. Supports keyboard interaction.</td>
+    <td>Enables and defines the element to be used for auto complete style search functionality for all markers currently loaded in the map. This should be used on an input element. Supports keyboard interaction. Requires <code>ng-model="search"</code> attribute. Recommended usage is: <code><input type="text" name="search" placeholder="Search Map" autocomplete="off" auto-complete ng-model="search" /></code></td>
   </tr>
 </table>
 
