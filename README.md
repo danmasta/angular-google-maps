@@ -47,11 +47,11 @@ The rest of the options can be added by setting attributes on any dom element. T
 ## Loading Markers
 By default, markers are loaded using angular's $http service, and expects a json response of objects to use for markers. The marker service makes use of only three fields that are required, any other data returned is set inside of a data property on each marker. This makes it really easy for you to customize the infowindow templates, dropdown select template, or add your own custom directives to extend and use the data however you like. The minimum fields for loading markers are:
 
-``` json
-latitude: string - decimal format latitude integer
-longitude: string - decimal format longitude integer
-title: string - optional, used as marker title and default infowindow text
-id: string, integer - unique id of object, used in search service
+``` javascript
+latitude: '24.355678', //string - decimal format latitude integer
+longitude: '-33.225563', //string - decimal format longitude integer
+title: 'California', //string - optional, used as marker title and default infowindow text
+id: 25 //string, integer - unique id of object, used in search service
 ```
 
 ## Services
