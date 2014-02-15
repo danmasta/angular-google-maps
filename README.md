@@ -189,7 +189,7 @@ id: 25 //string, integer - unique id of object, used in search service
   <tr>
     <td><pre>google-map</pre></td>
     <td>Element</td>
-    <td>A <code>google-map</code> element. This is the main element, the Google map with be built here. Supports 6 different options configured as attributes:
+    <td>A <code>google-map</code> element. This is the main element, the Google map will be built here. Supports 6 different options configured as attributes:
     <ul>
     <li><code>[offset]</code> - the amount to offset the map center</li>
     <li><code>[direction-service]</code> - enables the direction service, and by dependency the geolocation service</li>
@@ -199,6 +199,36 @@ id: 25 //string, integer - unique id of object, used in search service
     <li><code>[params]</code> - search parameters to include in the marker request</li>
     </ul>
     </td> 
+  </tr>
+  <tr>
+    <td><pre>zoom</pre></td>
+    <td>Attribute</td>
+    <td>Defines the element to be used as a zoom button. To use just set an attribute of <code>zoom="in"</code> or <code>zoom="out"</code> on any dom element</td>
+  </tr>
+  <tr>
+    <td><pre>info-window</pre></td>
+    <td>Attribute</td>
+    <td>Defines the element to be used as the custom info window element. Provides a very basic default template for displaying title, and streetview open button. Template can be easily over written with custom structure</td>
+  </tr>
+  <tr>
+    <td><pre>direction-service</pre></td>
+    <td>Attribute</td>
+    <td>Enables the direction service, and gelocation serive by dependency. Displays a route polyline on the map from current location to selected destination. Gets a google map direction object for the current location, stores this infomation in <code>$scope.directions</code> property</td>
+  </tr>
+  <tr>
+    <td><pre>direction-info</pre></td>
+    <td>Attribute</td>
+    <td>Defines the element to append distance/ duration info for the current route</td>
+  </tr>
+  <tr>
+    <td><pre>streetview-service</pre></td>
+    <td>Attribute</td>
+    <td>Enables the streetview service. Gets a google map streetview panorama object for the current location, sets the current map's panorama as this location's panorama id. When the streetview-open directive is triggered, the streetview service will be visisble within the current map element</td>
+  </tr>
+  <tr>
+    <td><pre>street-view-open</pre></td>
+    <td>Attribute</td>
+    <td>Defines the element to be used as the trigger for opening the streetview in the current map element. If streetview service succeeds, this element will be visible for interaction, otherwise the element is hidden from view automatically, suggesting there is no streetview service for the current location</td>
   </tr>
 </table>
 
