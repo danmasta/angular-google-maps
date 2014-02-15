@@ -248,8 +248,23 @@ id: 25 //string, integer - unique id of object, used in search service
 </table>
 
 ## Events
-ok, if you got this far and you are now thinking "How did he build so much functionality into such a small package?" -- All I can say is "Angular.. *Bro*."
 
+If you got this far and you are now thinking "How did he build so much functionality into such a small package?" -- All I can say is "angular, bro"
+
+<table>
+  <tr>
+    <th colspan="2" align="left"><a href="#events">Events</a></th>
+  <tr>
+  <tr>
+    <th align="left">Event</th>
+    <th align="left">Scope</th>
+    <th align="left">Type</th>
+    <th align="left">Description</th>
+  <tr>
+  <tr>
+    <td><pre>loadMarkers( url, params )</pre></td>
+    <td>Accepts a url string, and an optional list of search parameters in json format <code>param:'value'</code>. Loads json objects from specified url, sends them to be parsed and added to map</td>
+  </tr>
 
 
 
