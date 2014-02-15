@@ -65,8 +65,8 @@ id: 25 //string, integer - unique id of object, used in search service
     <th align="left">Description</th>
   <tr>
   <tr>
-    <td><pre>loadMarkers()</pre></td>
-    <td>Loads json objects from specified url, sends them to be parsed and added to map</td>
+    <td><pre>loadMarkers( url, params )</pre></td>
+    <td>Accepts a url string, and an optional list of search parameters in json format <code>param:'value'</code>. Loads json objects from specified url, sends them to be parsed and added to map</td>
   </tr>
   <tr>
     <td><pre>parseMarkers( data )</pre></td>
