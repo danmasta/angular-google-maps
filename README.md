@@ -27,7 +27,7 @@ The rest of the options can be added by setting attributes on any dom element. T
 
 ``` html
 <section ng-app="google-maps">
-  <google-map offset="6" direction-service streetview-service></google-map>
+  <google-map offset="6" direction-service streetview-service preload="true" url="//someurl.whatever" params="param1:'value', param2:'value'"></google-map>
   <input type="text" name="search" placeholder="Search Map" autocomplete="off" auto-complete ng-model="search" />
   <ul auto-complete-results></ul>
   <div infowindow></div>
@@ -132,7 +132,7 @@ id: 25 //string, integer - unique id of object, used in search service
   <tr>
   <tr>
     <td><pre>offSetMap( latlng )</pre></td>
-    <td>Accepts a Google maps latlng object and 'offsets' the map to that position. Offset is based on the value defined in the offset attribute on the <code>google-map</code> element. The offset value is the denomiator for dividing the window width, if offset="6" then offset value equals <code>window.width()/6</code></td>
+    <td>Accepts a Google maps latlng object and 'offsets' the map to that position. The offset amount is based on the value defined in the offset attribute on the <code>google-map</code> element. The offset value is the denomiator for dividing the window width, if offset="6" then offset value equals <code>window.width()/6</code></td>
   </tr>
   <tr>
     <td><pre>apply()</pre></td>
@@ -175,8 +175,23 @@ id: 25 //string, integer - unique id of object, used in search service
   </tr>
 </table>
 
+## Directives
 
-
+<table>
+  <tr>
+    <th colspan="3" align="left"><a href="#directives">Directives</a></th>
+  <tr>
+  <tr>
+    <th align="left">Name</th>
+    <th align="left">Type</th>
+    <th align="left">Description</th>
+  <tr>
+  <tr>
+    <td>google-map</td>
+    <td>Element</td>
+    <td>A <code><google-map></code> element. This is the main element, the Google map with be built here.</td> 
+  </tr>
+</table>
 
 
 

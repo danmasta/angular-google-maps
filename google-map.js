@@ -4,9 +4,6 @@ locations.service( 'markers', [ '$rootScope', '$http', 'options', function( $roo
   
   this.loadMarkers = function( url, params ) {
     var _this = this;
-    //$http.get( 'http://potspace.io/wp_api/v1/posts', { params: { post_type:'dispensaries', orderby:'modified' } } ).success( function( data ){
-    //  _this.parseMarkers(data.posts);
-    //});
     $http.get( url, { params: params } ).success( function( data ){
       _this.parseMarkers(data.posts);
     });
@@ -214,20 +211,18 @@ locations.service( 'map', [ '$rootScope', '$http', '$q', function( $rootScope, $
   
 }]);
 
-
 locations.controller( 'directionservice', function( $rootScope, $scope, map, options ) {
   map.geo().locate().then( function( position ) {
     console.log('geo complete');
     $rootScope.currentLocation = position;
     $scope.circle =  new google.maps.Circle( options.getOptions().circleOptions );
     $scope.polyline = new google.maps.Polyline( options.getOptions().polyLineOptions );
-    $scope.$emit( 'geo.complete' );
+    $scope.$emit( 'geo.complete', position );
   });
 });
 
 locations.run( function( $rootScope, markers, $http ) {
   $rootScope.markers = [];
-  //markers.loadMarkers();
   console.log('google maps is running');
 });
 
@@ -235,7 +230,7 @@ locations.directive( 'googleMap', function( $rootScope, options, map, markers ) 
   return{
     restrict: 'E',
     link: function( $scope, $element, $attributes ) {
-      console.log($attributes);
+      console.log( $attributes );
       if( $attributes.preload ){
         markers.loadMarkers( $attributes.url, $attributes.params );
       }
