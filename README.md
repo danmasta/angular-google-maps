@@ -45,7 +45,7 @@ The rest of the options can be added by setting attributes on any dom element. T
 * Geometry library is needed only if using the direction service. Be sure to include the library parameter in your google api url like this: ```//maps.google.com/maps/api/js?sensor=true&libraries=geometry```
 
 ## Loading Markers
-By default, markers are loaded using angular's $http service, and expects a json response of objects to use for markers. The marker service makes use of only three fields that are required, any other data returned is set inside of a data property on each marker. This makes it really easy for you to customize the infowindow templates, dropdown select template, or add your own custom directives to extend and use the data however you like. The minimum fields for loading markers are:
+By default, markers are loaded using angular's $http service, and expects a json response of objects to use for markers. The marker service makes use of only three fields that are required, any other data returned is set inside of a <code>data:</code> property on each marker. This makes it really easy for you to customize the infowindow templates, dropdown select template, or add your own custom directives to extend and use the data however you like. The minimum fields for loading markers are:
 
 ``` javascript
 latitude: '24.355678', //string - decimal format latitude integer
@@ -278,6 +278,20 @@ $rootScope.$on( 'marker.add', function( marker, i ) {
       <td>$broadcast</td>
       <td>$rootScope</td>
       <td>Event is broadcasted each time the <code>[auto-complete]</code> input comes into focus. There is no special data passed.</td>
+    </tr>
+    <tr>
+      <td><pre>search.blur</pre></td>
+      <td>$broadcast</td>
+      <td>$rootScope</td>
+      <td>Event is broadcasted each time the <code>[auto-complete]</code> input goes out of focus. There is no special data passed.</td>
+    </tr>
+    <tr>
+      <td><pre>geo.complete</pre></td>
+      <td>$emit</td>
+      <td>$scope</td>
+      <td>Event is emited when the <code>[direction-service]</code> controller is intialized. Callback param is 'position'. Callback functuin would look like: <pre>$scope.$on( 'geo.complete', function( position ) {
+      //do stuff
+      });</pre></td>
     </tr>
   </tr>
 
