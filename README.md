@@ -25,7 +25,7 @@ This plugin makes use angular directives to utilize each google maps service or 
 
 The rest of the options can be added by setting attributes on any dom element. This allows for excellent customization of styles and user experience. If you were to utilize every option, the minimal code would look something like this:
 
-```
+``` html
 <section ng-app="google-maps">
   <google-map offset="6" direction-service streetview-service></google-map>
   <input type="text" name="search" placeholder="Search Map" autocomplete="off" auto-complete ng-model="search" />
