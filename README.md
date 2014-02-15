@@ -265,13 +265,20 @@ If you got this far and you are now thinking "How did he build so much functiona
     <td><pre>marker.add</pre></td>
     <td>$broadcast</td>
     <td>$rootScope</td>
-    <td>Event is broadcasted each time a marker is added to the map. Callback params are 'marker' and optional 'index' param. Callback function would look like:
+    <td>Event is broadcasted each time a marker is added to the map. Callback params are 'marker' and optional 'index'. Callback function would look like:
     <pre>
-function( marker, i ) {
+$rootScope.$on( 'marker.add', function( marker, i ) {
   //do stuff
 });
 </pre>
     </td>
+    </tr>
+    <tr>
+      <td><pre>search.focus</pre></td>
+      <td>$broadcast</td>
+      <td>$rootScope</td>
+      <td>Event is broadcasted each time the <code>[auto-complete]</code> input comes into focus. There is no special data passed.</td>
+    </tr>
   </tr>
 
 
