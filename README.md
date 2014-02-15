@@ -189,14 +189,14 @@ id: 25 //string, integer - unique id of object, used in search service
   <tr>
     <td><pre>google-map</pre></td>
     <td>Element</td>
-    <td>A <code>google-map</code> element. This is the main element, the Google map with be built here. Supports 6 different options condifured as attributes:
+    <td>A <code>google-map</code> element. This is the main element, the Google map with be built here. Supports 6 different options configured as attributes:
     <ul>
-    <li>[offset] - the amount to offset the map center</li>
-    <li>[direction-service] - enables the direction service, and by dependency the geolocation service</li>
-    <li>[streetview-service] - enables the streetview service</li>
-    <li>[preload] - if preload equals true, it will load markers from the specified url on initialization</li>
-    <li>[url] - the url to load json marker resources from</li>
-    <li>[params] - search parameters to include in the marker request</li>
+    <li><code>[offset]</code> - the amount to offset the map center</li>
+    <li><code>[direction-service]</code> - enables the direction service, and by dependency the geolocation service</li>
+    <li><code>[streetview-service]</code> - enables the streetview service</li>
+    <li><code>[preload]</code> - if preload equals true, it will load markers from the specified url on initialization</li>
+    <li><code>[url]</code> - the url to load json marker resources from</li>
+    <li><code>[params]</code> - search parameters to include in the marker request</li>
     </ul>
     </td> 
   </tr>
