@@ -187,7 +187,7 @@ id: 25 //string, integer - unique id of object, used in search service
     <th align="left">Description</th>
   <tr>
   <tr>
-    <td>google-map</td>
+    <td><pre><google-map></pre></td>
     <td>Element</td>
     <td>A <google-map> element. This is the main element, the Google map with be built here. Supports 6 different options condifured as attributes:
     <ul>
