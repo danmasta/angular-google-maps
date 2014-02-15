@@ -213,7 +213,7 @@ id: 25 //string, integer - unique id of object, used in search service
   <tr>
     <td><pre>direction-service</pre></td>
     <td>Attribute</td>
-    <td>Enables the direction service, and gelocation serive by dependency. Displays a route polyline on the map from current location to selected destination. Gets a google map direction object for the current location, stores this infomation in <code>$scope.directions</code> property</td>
+    <td>Enables the direction service, and gelocation service by dependency. Displays a route polyline on the map from current location to selected destination. Gets a google map direction object for the current location, stores this infomation in <code>$scope.directions</code> property</td>
   </tr>
   <tr>
     <td><pre>direction-info</pre></td>
@@ -223,12 +223,22 @@ id: 25 //string, integer - unique id of object, used in search service
   <tr>
     <td><pre>streetview-service</pre></td>
     <td>Attribute</td>
-    <td>Enables the streetview service. Gets a google map streetview panorama object for the current location, sets the current map's panorama as this location's panorama id. When the streetview-open directive is triggered, the streetview service will be visisble within the current map element</td>
+    <td>Enables the streetview service. Gets a google map streetview panorama object for the current location, sets the current map's panorama as this location's panorama id. When the streetview-open directive is triggered, the streetview service will be visible within the current map element</td>
   </tr>
   <tr>
     <td><pre>street-view-open</pre></td>
     <td>Attribute</td>
     <td>Defines the element to be used as the trigger for opening the streetview in the current map element. If streetview service succeeds, this element will be visible for interaction, otherwise the element is hidden from view automatically, suggesting there is no streetview service for the current location</td>
+  </tr>
+  <tr>
+    <td><pre>street-view-close</pre></td>
+    <td>Attribute</td>
+    <td>Defines the element to be used as the trigger for closing the streetview in the current map element. This element is only visible when the streetview service is open</td>
+  </tr>
+  <tr>
+    <td><pre>auto-complete</pre></td>
+    <td>Attribute</td>
+    <td>Enables auto complete style search functionality for all markers loaded in the map. This should be used on an input element. Supports keyboard interaction.</td>
   </tr>
 </table>
 
