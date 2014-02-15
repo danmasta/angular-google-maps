@@ -253,7 +253,7 @@ If you got this far and you are now thinking "How did he build so much functiona
 
 <table>
   <tr>
-    <th colspan="3" align="left"><a href="#events">Events</a></th>
+    <th colspan="4" align="left"><a href="#events">Events</a></th>
   <tr>
   <tr>
     <th align="left">Event</th>
@@ -265,9 +265,13 @@ If you got this far and you are now thinking "How did he build so much functiona
     <td><pre>marker.add</pre></td>
     <td>$broadcast</td>
     <td>$rootScope</td>
-    <td>Event is broadcasted each time a marker is added to the map. Contains marker and optional index param. Callback function would look like: <pre>( function( marker, i ) {
-      //do stuff
-    });</pre></td>
+    <td>Event is broadcasted each time a marker is added to the map. Callback params are 'marker' and optional 'index' param. Callback function would look like:
+    <pre>
+function( marker, i ) {
+  //do stuff
+});
+</pre>
+    </td>
   </tr>
 
 
