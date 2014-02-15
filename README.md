@@ -189,7 +189,7 @@ id: 25 //string, integer - unique id of object, used in search service
   <tr>
     <td><pre>google-map</pre></td>
     <td>Element</td>
-    <td>A <code>&lt;google-map&gt;</code> element. This is the main element, the Google map will be built here. Supports 6 different options configured as attributes:
+    <td>A <code>&lt;google-map&gt;</code> element. This is the main element; the Google map will be built here. Supports 6 different options configured as attributes:
     <ul>
     <li><code>[offset]</code> - the amount to offset the map center</li>
     <li><code>[direction-service]</code> - enables the direction service, and by dependency the geolocation service</li>
@@ -247,6 +247,8 @@ id: 25 //string, integer - unique id of object, used in search service
   </tr>
 </table>
 
+## Events
+Ok, if you got this far and you are now thinking "How did he build so much functionality into such a small package?" All I can say is *"Angular, bro."*
 
 
 
