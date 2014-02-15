@@ -248,7 +248,7 @@ id: 25 //string, integer - unique id of object, used in search service
 </table>
 
 ## Events
-Ok, if you got this far and you are now thinking "How did he build so much functionality into such a small package?" All I can say is *"Angular, bro."*
+ok, if you got this far and you are now thinking "How did he build so much functionality into such a small package?" -- All I can say is "Angular.. *Bro*."
 
 
 
