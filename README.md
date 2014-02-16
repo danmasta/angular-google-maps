@@ -295,6 +295,24 @@ $scope.$on( 'geo.complete', function( position ) {
 </pre>
       </td>
     </tr>
+    <tr>
+      <td><pre>streetview.success</pre></td>
+      <td>$emit</td>
+      <td>$scope</td>
+      <td>Event is broadcasted each time the <code>[streetview-service]</code> has completed successfully. Callback param is a Google maps streetview panorama data object. Callback function would look like:
+      <pre>
+$scope.$on( 'streetview.success', function( data ) {
+  //do stuff
+});
+</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><pre>streetview.fail</pre></td>
+      <td>$emit</td>
+      <td>$scope</td>
+      <td>Event is broadcasted each time the <code>[streetview-service]</code> fails. Callback param is status.</td>
+    </tr>
   </tr>
 
 
