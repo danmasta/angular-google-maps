@@ -249,8 +249,6 @@ id: 25 //string, integer - unique id of object, used in search service
 
 ## Events
 
-If you got this far and you are now thinking "How did he build so much functionality into such a small package?" -- All I can say is "angular, bro"
-
 <table>
   <tr>
     <th colspan="4" align="left"><a href="#events">Events</a></th>
