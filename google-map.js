@@ -377,11 +377,11 @@ locations.directive( 'streetviewService', function( $rootScope, options, map ) {
         angular.forEach( newelems , function( value, key ) {
           google.maps.event.addListener( value, 'click', function() {
             map.getStreetview( this ).streetview().then( function( data ) {
-              $scope.$emit( 'streetview.success' );
+              $scope.$emit( 'streetview.success', data );
               $rootScope.map.getStreetView().setOptions( options.getOptions().panoramaOptions );
               $rootScope.map.getStreetView().setPano( data.location.pano );
             }, function( data ) {
-              $scope.$emit( 'streetview.fail' );
+              $scope.$emit( 'streetview.fail', data );
             });
           });
         });

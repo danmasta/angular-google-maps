@@ -299,7 +299,7 @@ $scope.$on( 'geo.complete', function( position ) {
       <td><pre>streetview.success</pre></td>
       <td>$emit</td>
       <td>$scope</td>
-      <td>Event is broadcasted each time the <code>[streetview-service]</code> has completed successfully. Callback param is a Google maps streetview panorama data object. Callback function would look like:
+      <td>Event is emited each time the <code>[streetview-service]</code> has completed successfully. Callback param is a Google maps streetview panorama data object. Callback function would look like:
       <pre>
 $scope.$on( 'streetview.success', function( data ) {
   //do stuff
@@ -311,7 +311,19 @@ $scope.$on( 'streetview.success', function( data ) {
       <td><pre>streetview.fail</pre></td>
       <td>$emit</td>
       <td>$scope</td>
-      <td>Event is broadcasted each time the <code>[streetview-service]</code> fails. Callback param is status.</td>
+      <td>Event is emited each time the <code>[streetview-service]</code> fails. Callback param is status.</td>
+    </tr>
+    <tr>
+      <td><pre>streetview.open</pre></td>
+      <td>$emit</td>
+      <td>$scope</td>
+      <td>Event is emited each time the <code>[streetview-service]</code> panorama is opened. There is no special data passed.</td>
+    </tr>
+    <tr>
+      <td><pre>streetview.close</pre></td>
+      <td>$emit</td>
+      <td>$scope</td>
+      <td>Event is emited each time the <code>[streetview-service]</code> panorama is closed. There is no special data passed.</td>
     </tr>
   </tr>
 
