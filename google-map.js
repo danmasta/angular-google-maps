@@ -213,7 +213,6 @@ locations.service( 'map', [ '$rootScope', '$http', '$q', function( $rootScope, $
 
 locations.controller( 'directionservice', function( $rootScope, $scope, map, options ) {
   map.geo().locate().then( function( position ) {
-    console.log('geo complete');
     $rootScope.currentLocation = position;
     $scope.circle =  new google.maps.Circle( options.getOptions().circleOptions );
     $scope.polyline = new google.maps.Polyline( options.getOptions().polyLineOptions );
@@ -223,14 +222,12 @@ locations.controller( 'directionservice', function( $rootScope, $scope, map, opt
 
 locations.run( function( $rootScope, markers, $http ) {
   $rootScope.markers = [];
-  console.log('google maps is running');
 });
 
 locations.directive( 'googleMap', function( $rootScope, options, map, markers ) {
   return{
     restrict: 'E',
     link: function( $scope, $element, $attributes ) {
-      console.log( $attributes );
       if( $attributes.preload ){
         markers.loadMarkers( $attributes.url, $attributes.params );
       }
@@ -242,7 +239,6 @@ locations.directive( 'googleMap', function( $rootScope, options, map, markers ) 
         $rootScope.map.setCenter( $rootScope.mapCenter );
       });
       google.maps.event.addListener( $rootScope.map, 'idle', function() {
-        console.log('map is idle');
         $rootScope.mapCenter = $rootScope.map.getCenter();
         $rootScope.mapZoom = $rootScope.map.getZoom();
       });
