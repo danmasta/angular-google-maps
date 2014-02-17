@@ -4,6 +4,9 @@ A very easy to use google maps application for angular.js. At only 14kb minified
 ## What this plugin does
 Creates a google map element on your page. Configuration can be done with html tags and attributes, and can be styled with css.
 
+## Demo
+Check out a demo with all features here: http://test.dev.danmasta.net/google-map-demo/
+
 ## This plugin supports the following features
 * Google maps direction service
 * Google maps street view service
