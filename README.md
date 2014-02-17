@@ -1,5 +1,5 @@
 # Simple Angular Google Maps
-A very easy to use google maps application for angular.js. At only 14kb minified, this is one of the smallest and most powerful google map integrations out there.
+A very easy to use google maps application for angular.js. At only 12kb minified, this is one of the smallest and most powerful google map integrations out there.
 
 ## What this plugin does
 Creates a google map element on your page. Configuration can be done with html tags and attributes, and can be styled with css.
