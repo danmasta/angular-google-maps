@@ -1,0 +1,15 @@
+<div class="col-xs-12 col-sm-6 col-md-3" data-location-item title="Bedrosians Tile and Stone at {{item.data.locationcity}}, {{item.data.locationstate}}" ng-repeat="item in markers | filter:locationfilter">
+  <div class="location-item-container">
+    <a class="map" href="#">
+      <span class="map-img" data-lazyload="absolute" data-img="http://maps.google.com/maps/api/staticmap?center={{item.data.locationlatitude}},{{item.data.locationlongitude}}&amp;markers=icon:http://cdn.bedrosians.com/assets/images/site/bd-map-marker.png|shadow:false|{{item.data.locationlatitude}},{{item.data.locationlongitude}}&amp;zoom=15&amp;size=300x110&amp;sensor=false&amp;key=AIzaSyBuKs9vR9iULvs67tbTSfStDOY_67pq868"></span>
+    </a>
+    <a class="address" href="/locations/{{item.data.locationregion | seourl}}/{{item.data.branchname | seourl}}">
+      <h3 class="name">{{item.data.branchname}} {{item.data.branchid}}</h3>
+      <span class="info">{{item.data.locationstreet}}</span>
+      <span class="info">{{item.data.locationcity}}, {{item.data.locationstate}}, {{item.data.locationzip}}</span>
+    </a>
+    <a class="more" a href="/locations/{{item.data.locationregion | seourl}}/{{item.data.branchname | seourl}}">
+      <span class="info">More Information</span>
+    </a>
+  </div>
+</div>

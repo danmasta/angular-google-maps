@@ -1,0 +1,16 @@
+<div class="left col-xs-7">
+  <div class="branch-name">{{activeMarker.data.branchname}}</div>
+  <div class="branch-street">{{activeMarker.data.locationstreet}}</div>
+  <div class="branch-citystate">{{activeMarker.data.locationcity}}, {{activeMarker.data.locationstate}}, {{activeMarker.data.locationzip}}</div>
+  <div class="weekday">{{activeMarker.data.branchhours[0].hours[0]}}</div>
+  <div class="weekend">{{activeMarker.data.branchhours[0].hours[1]}}</div>
+  <div class="sunday">{{activeMarker.data.branchhours[0].hours[2]}}</div>
+</div>
+<div class="right col-xs-5">
+  <a class="directions col-xs-6"><span class="direction-icon"></span>Directions</a>
+  <a class="streetview col-xs-6" street-view-open ng-show="isVisible.StreetViewOpen" ng-click="openStreetView($event)"><span class="streetview-icon"></span>StreetView</a>
+  <hr class="divider">
+  <a href="#" class="visit-page">Visit Page</a>
+  <div class="branch-phone">{{activeMarker.data.branchphonenumber}}</div>
+  <div direction-info></div>
+</div>

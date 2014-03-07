@@ -1,0 +1,10 @@
+<div class="title">Country of Origin</div>
+<h3 class="country-name" style="background-image:url('http://www.geonames.org/flags/x/{{countryInfo.countryCode | lowercase}}.gif')">{{countryInfo.countryName}}</h3>
+<p class="country-description">{{countryInfo.description.current}}<span data-more-info ng-click="moreInfo()">{{moreInfoLabel}}</span></p>
+<h5 class="facts">Fun Facts</h5>
+<ul>
+  <li class="distance">You are <span class="country-distance">{{countryInfo.distance | number}}</span> miles from <span class="country-name">{{countryInfo.countryName}}</span></li>
+  <li class="country">Capital: <span class="country-capital">{{countryInfo.capital}}</span></li>
+  <li class="peoples">Population: <span class="country-population">{{countryInfo.population | number}}</span></li>
+  <li class="size">Size: <span class="country-name"></span> is <span class="country-area">{{countryInfo.areaInSqKm | kmtom | number}}</span> square miles</li>
+</ul>

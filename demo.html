@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="google-maps">
+  <head>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/google-map.css">
+    <script src="//maps.google.com/maps/api/js?sensor=true&libraries=geometry"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+    <script src="/js/google-map.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <section data-map-container>
+      <div data-google-map offset="6" direction-service streetview-service preload="true" url="http://api.geonames.org/childrenJSON?geonameId=5332921&username=beddaniel" params=""></div>
+      <input type="text" name="search" placeholder="Search Map" autocomplete="off" auto-complete ng-model="search" />
+      <ul auto-complete-results></ul>
+      <div infowindow></div>
+      <a zoom="in"></a>
+      <a zoom="out"></a>
+      <a street-view-open>Streetview Open</a>
+      <div sreet-view-close>&times;</div>
+      <div direction-info></div>
+    </section>
+  </body>
+</html>
