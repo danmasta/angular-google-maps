@@ -276,6 +276,7 @@ app.directive('googleMap', function($rootScope, options, map, markers) {
         map.extendMapPrototype();
         $rootScope.offset = $attributes.offset ? $attributes.offset : false;
         $rootScope.map = new google.maps.Map($element[0], options.getOptions().mapDefaults);
+        $rootScope.infoWindow = new google.maps.InfoWindow();
         $scope.$broadcast('map.loaded');
         $rootScope.isVisible.Map = true;
         google.maps.event.addDomListener(window, 'resize', function() {
@@ -302,6 +303,8 @@ app.directive('googleMap', function($rootScope, options, map, markers) {
             console.time('marker click');
             $rootScope.$apply($rootScope.activeMarker = this);
             map.offSetMap(this.position);
+            $rootScope.infoWindow.setContent( this.title );
+            $rootScope.infoWindow.open( $rootScope.map, this );
           });
         if($attributes.clusterMarkers != 'true'){
           setTimeout( dropPin( i ), i * delay );
