@@ -6,6 +6,11 @@ GOOGLE MAP ANGULAR
 [data-google-map] img{ max-width:none;}
 
 /*
+GOOGLE MAP ANGULAR TEST BUTTON
+*/
+[test-location-markers] { position: absolute; top: 50px; right: 50px;}
+
+/*
 GOOGLE MAP ANGULAR INFO WINDOW
 */
 [infowindow]{ background:#fff; border-radius:3px; -webkit-box-shadow:0 0 18px rgba(0,0,0,0.2); box-shadow:0 0 18px rgba(0,0,0,0.2); padding:0; max-width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; overflow:hidden;}
@@ -23,11 +28,15 @@ GOOGLE MAP ANGULAR STREET VIEW
 /*
 GOOGLE MAP ANGULAR AUTO COMPLETE
 */
-[auto-complete-container]{ position:absolute; top:65px; left:100px; padding:0;}
+[auto-complete-container]{ padding:0;}
 [auto-complete-map]{ max-width:100%; -webkit-box-shadow:0 0 18px rgba(0,0,0,.2); box-shadow:0 0 18px rgba(0,0,0,.2); border-radius: 3px; float:none;}
-[auto-complete-results-map]{ position: absolute; top:104px; left:100px; padding:0; list-style:none; margin:0;}
+[auto-complete-results-map]{ padding:0; list-style:none; margin:0;}
 [result-item-location]{ background:#fff; padding:9px; cursor:pointer;}
 [result-item-location].active{ background-color:#eee;}
+@media(min-width:992px){
+  [auto-complete-container]{ position:absolute; top:65px; left:100px;}
+  [auto-complete-results-map]{ position: absolute; top:104px; left:100px;}
+}
 /*
 GOOGLE MAP ANGULAR ZOOM CONTROL
 */

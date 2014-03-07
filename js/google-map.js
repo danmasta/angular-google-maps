@@ -774,3 +774,67 @@ app.directive('staticMap', function(){
     }
   };
 });
+
+app.directive( 'lazyload', function($rootScope){
+  return{
+    restrict: 'A',
+    link: function($scope, $element, $attributes){
+     
+      $scope.img = new Image();
+      $scope.setStyle = function(url) {
+
+        if ($element[0].nodeName === 'IMG') {
+          $element[0].src = url;
+        } else {
+          $element[0].style.backgroundImage = 'url(' + url + ')';
+          $element[0].style.backgroundSize = 'cover';
+        }
+      };
+
+      $scope.loadAdaptiveImg = function() {
+        var url = $scope.getAdaptiveUrl();
+
+        $scope.img.onload = function() {
+          $scope.setStyle(url);
+        };
+        $scope.img.onerror = function() {
+          $scope.loadDefaultImg();
+        };
+        $scope.img.src = url;
+      };
+
+      $scope.loadDefaultImg = function() {
+        var url = $attributes.img;
+        $scope.img.onload = function() {
+          $scope.setStyle(url);
+        };
+        $scope.img.onerror = function() {
+          throw new Error('No img found, please check source');
+        };
+        $scope.img.src = url;
+      };
+
+      $scope.getAdaptiveUrl = function() {
+        var w = window.outerWidth;
+        var url = $attributes.img.split('.', 2);
+        var newUrl;
+        if(!$attributes.lazyload){
+          if (w < 768) {
+            newUrl = url[0] + '-xs.' + url[1];
+          } else if (w < 992) {
+            newUrl = url[0] + '-sm.' + url[1];
+          } else if (w < 1200) {
+            newUrl = url[0] + '-md.' + url[1];
+          } else {
+            newUrl = $attributes.img;
+          }
+        } else {
+          newUrl = $attributes.img; 
+        }
+        return newUrl;
+      };
+      
+      $scope.loadAdaptiveImg();
+    }
+  };
+});

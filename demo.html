@@ -11,17 +11,22 @@
   </head>
   <body>
     <section data-map-container>
-      <div data-google-map offset="6" direction-service streetview-service preload="true" url="http://api.geonames.org/childrenJSON?geonameId=5332921&username=beddaniel" params=""></div>
+      <div data-google-map offset="6" direction-service streetview-service preload="true" url="/data.json" params=""></div>
+      <button test-location-markers ng-click="spamMarkers()" ng-show="isVisible.Map">Load 1k Markers</button>
       <div class="col-xs-12 col-md-3" auto-complete-container="">
         <input type="text" class="form-control" name="search" placeholder="Search Map" autocomplete="off" auto-complete-map ng-model="mapsearch" ng-show="isVisible.Map" />
       </div>
-      <ul auto-complete-results-map ng-show="focus"></ul>
+      <ul auto-complete-results-map ng-show="focus" class="col-xs-12 col-md-3"></ul>
       <div infowindow ng-show="isVisible.Infowindow" class="infowindow col-xs-12 col-md-3"></div>
       <a zoom="in" ng-show="isVisible.Map"></a>
       <a zoom="out" ng-show="isVisible.Map"></a>
-<!--      <a street-view-open>Streetview Open</a>-->
       <div street-view-close ng-show="!isVisible.Map" ng-click="closeStreetView($event)">&times;</div>
-<!--      <div direction-info></div>-->
+    </section>
+    <section>
+      <div class="container">
+        <div class="row" data-filter-items></div>
+        <div class="row" data-location-items></div>
+      </div>
     </section>
   </body>
 </html>
