@@ -36,7 +36,7 @@ app.service('markers', [ '$rootScope', '$http', 'options', function($rootScope, 
 
   this.getMarkerById = function(id) {
     var marker = $rootScope.markers.filter(function(elem) {
-      return elem.data && elem.data.branchid === id;
+      return elem.data && elem.data.geonameId.toString() === id;
     });
     return marker;
   };
@@ -74,10 +74,10 @@ app.service('options', [ '$rootScope', function($rootScope) {
       },
       panoramaOptions: {
         addressControlOptions: {
-          position: google.maps.ControlPosition.TOP_CENTER
+          position: google.maps.ControlPosition.TOP_LEFT
         },
         linksControl: false,
-        panControl: false,
+        panControl: true,
         zoomControl: false,
         enableCloseButton: false
       }
@@ -398,6 +398,7 @@ app.directive('streetviewService', function($rootScope, options, map) {
           google.maps.event.addListener(value, 'click', function() {
             map.getStreetview(this).streetview().then(function(data) {
               $scope.$emit('streetview.success');
+              $rootScope.map.getStreetView().setOptions( options.getOptions().panoramaOptions );
               $rootScope.map.getStreetView().setPano(data.location.pano);
               $rootScope.isVisible.StreetViewOpen = true;
             }, function(data) {
@@ -505,7 +506,7 @@ app.directive('autoCompleteMap', function($rootScope, options, map, $filter, mar
             var _this = this;
             if (this.data) {
               $scope.$apply(function() {
-                $scope.mapsearch = _this.data.branchname;
+                $scope.mapsearch = _this.data.name;
               });
             } else {
               $scope.$apply(function() {
@@ -588,8 +589,8 @@ app.directive('testLocationMarkers', function($rootScope, options, map, markers)
               animation: google.maps.Animation.DROP,
               title: 'Test Marker ' + i,
               data: {
-                branchid: 'tm' + i,
-                branchname: 'Test Marker ' + i
+                geonameId: 'tm' + i,
+                name: 'Test Marker ' + i
               }
             });
           markers.addMarker( marker, index++ );
