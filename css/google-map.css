@@ -1,10 +1,9 @@
 /*
 GOOGLE MAP ANGULAR
 */
-[data-map-container]{ position: relative; height:600px;}
-[data-google-map]{ width:100%; height:100%; display:block; height:500px;}
+[data-map-container]{ position: relative; height:700px;}
+[data-google-map]{ width:100%; height:100%; display:block;}
 [data-google-map] img{ max-width:none;}
-
 /*
 GOOGLE MAP ANGULAR TEST BUTTON
 */
@@ -17,14 +16,12 @@ GOOGLE MAP ANGULAR INFO WINDOW
 [infowindow] .left{ background:#fff; padding:15px;}
 [infowindow] .right{ background:#fff; padding:15px;}
 [infowindow] [direction-info]{ font-size: 11px;}
-
 /*
 GOOGLE MAP ANGULAR STREET VIEW
 */
 [street-view-open]{ cursor: pointer; margin-bottom:10px; display: block;}
 [street-view-close]{ position:absolute; top:20px; right:20px; font-size:40px; font-weight:600; color:#fff; cursor:pointer; line-height:1; z-index: 2;}
 [street-view-close]:hover{ opacity:1;}
-
 /*
 GOOGLE MAP ANGULAR AUTO COMPLETE
 */
@@ -42,19 +39,18 @@ GOOGLE MAP ANGULAR ZOOM CONTROL
 */
 [zoom-control]{ position:absolute; top:20px; right:20px; font-size: 20px;}
 [zoom-control] a{ display: block; cursor: pointer;}
-
 /*
 GOOGLE MAP MEDIA QUERIES
 */
 @media all and (min-width: 1200px) {
-  [data-google-map]{ height: 600px; max-height:600px;}
+  [data-map-container]{ height: 700px; max-height:700px;}
 }
 @media all and (min-width: 992px) {
   [infowindow]{ position:absolute; top:104px; left:100px;}
 }
 @media all and (max-width: 991px) {
-  [data-google-map]{ height:400px; max-height:400px;}
+  [data-map-container]{ height:400px; max-height:400px;}
 }
 @media all and (max-width: 767px) {
-  [data-google-map]{ height:300px; max-height:300px;}
+  [data-map-container]{ height:300px; max-height:300px;}
 }

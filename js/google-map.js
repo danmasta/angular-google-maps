@@ -5,7 +5,7 @@ app.service('markers', [ '$rootScope', '$http', 'options', function($rootScope, 
   this.loadMarkers = function(url, params) {
     var _this = this;
     $http.get(url, { params: params }).success(function(data) {
-      _this.parseMarkers(data.geonames);
+      _this.parseMarkers(data);
       console.log(data);
     });
   };
@@ -613,16 +613,9 @@ app.directive('locationItems', function($rootScope, options, map, markers){
 app.controller('filterLocationControl', function($rootScope, markers, $scope){
   $scope.regions = [
     {title: 'All Locations', value:'*'},
-    {title: 'Northern California', value:'Northern California'},
-    {title: 'Central California', value:'Central California'},
-    {title: 'Southern California', value:'Southern California'},
-    {title: 'Arizona', value:'Arizona'},
-    {title: 'Colorado', value:'Colorado'}, 
-    {title: 'Florida', value:'Florida'},
-    {title: 'Nevada', value:'Nevada'},
-    {title: 'Utah', value:'Utah'},
-    {title: 'Washington', value:'Washington'}, 
-    {title: 'Mid Atlantic', value:'Mid Atlantic'}
+    {title: 'Yolo County', value:'Yolo County'},
+    {title: 'Los Angeles County', value: 'Los Angeles County'},
+    {title: 'Orange County', value: 'Orange County'}
   ];
   $scope.locationfilter = function(item){
     if(item && item.data){
@@ -631,7 +624,7 @@ app.controller('filterLocationControl', function($rootScope, markers, $scope){
       }
       var found = false;
       angular.forEach(item, function (location) {          
-        if (item.data.locationregion === ($scope.regionsfilter.value)) {
+        if (item.data.region === ($scope.regionsfilter.value)) {
           found = true;
         }
       });
