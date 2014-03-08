@@ -37,8 +37,9 @@ GOOGLE MAP ANGULAR AUTO COMPLETE
 /*
 GOOGLE MAP ANGULAR ZOOM CONTROL
 */
-[zoom-control]{ position:absolute; top:20px; right:20px; font-size: 20px;}
-[zoom-control] a{ display: block; cursor: pointer;}
+[data-zoom-control]{ position:absolute; top:50px; right:20px; font-size: 20px; color:#4588f7;}
+[data-zoom]{ display:block; line-height: 1; cursor:pointer; opacity:0.8; margin-bottom:5px;}
+[data-zoom]:hover{ opacity:1;}
 /*
 GOOGLE MAP MEDIA QUERIES
 */

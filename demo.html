@@ -19,8 +19,10 @@
       </div>
       <ul auto-complete-results-map ng-show="focus" class="col-xs-12 col-md-3"></ul>
       <div infowindow ng-show="isVisible.Infowindow" class="infowindow col-xs-12 col-md-3"></div>
-      <a zoom="in" ng-show="isVisible.Map"></a>
-      <a zoom="out" ng-show="isVisible.Map"></a>
+      <div class="zoom-control" data-zoom-control>
+        <div data-zoom="in" ng-show="isVisible.Map"><i class="fa fa-plus-square"></i></div>
+        <div data-zoom="out" ng-show="isVisible.Map"><i class="fa fa-minus-square"></i></div>
+      </div>
       <div street-view-close ng-show="!isVisible.Map" ng-click="closeStreetView($event)">&times;</div>
     </section>
     <section>
