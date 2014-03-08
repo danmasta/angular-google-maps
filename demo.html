@@ -12,7 +12,7 @@
   </head>
   <body>
     <section data-map-container>
-      <div data-google-map offset="6" direction-service streetview-service preload="true" url="/data.json" params=""></div>
+      <div data-google-map offset="6" direction-service streetview-service preload="true" url="/data.json" data-origin="orange county, ca" params=""></div>
       <button test-location-markers ng-click="spamMarkers()" ng-show="isVisible.Map">Load 1k Markers</button>
       <div class="col-xs-12 col-md-3" auto-complete-container="">
         <input type="text" class="form-control" name="search" placeholder="Search Map" autocomplete="off" auto-complete-map ng-model="mapsearch" ng-show="isVisible.Map" />
@@ -28,7 +28,6 @@
     <section>
       <div class="container">
         <select class="form-control c-navsecondary--small__form__select" data-location-select ng-model="regionsfilter" ng-options="item as item.title for item in regions" ng-init="regionsfilter = regions[0]"></select>
-<!--        <div class="row" data-location-filter></div>-->
         <div class="row" data-location-items></div>
       </div>
     </section>

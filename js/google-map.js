@@ -35,9 +35,15 @@ app.service('markers', [ '$rootScope', '$http', 'options', function($rootScope, 
   };
 
   this.getMarkerById = function(id) {
-    var marker = $rootScope.markers.filter(function(elem) {
-      return elem.data && elem.data.geonameId.toString() === id;
+    var marker = $rootScope.markers.filter(function(elem, index) {
+      //console.log('marker filter',elem.data.id, elem.data, elem);
+      if(!elem.data || !elem.data.id){
+        return false;
+      } else if(elem.data.id.toString() === id){
+        return true; 
+      }
     });
+    //console.log('filter return', marker);
     return marker;
   };
 }]);
@@ -589,7 +595,7 @@ app.directive('testLocationMarkers', function($rootScope, options, map, markers)
               animation: google.maps.Animation.DROP,
               title: 'Test Marker ' + i,
               data: {
-                geonameId: 'tm' + i,
+                id: 'tm' + i,
                 name: 'Test Marker ' + i
               }
             });
@@ -669,7 +675,7 @@ app.directive('clusterMarkers', function($rootScope, map, markers){
   };
 });
 
-app.directive('origin', function($http, map, markers){
+app.directive('origin', function($http, map, markers, options){
   return{
     restrict:'A',
     controller:'geolocateService',
@@ -680,7 +686,14 @@ app.directive('origin', function($http, map, markers){
           $scope.originPos = new google.maps.LatLng(results.geometry.location.lat(), results.geometry.location.lng());
           $scope.$emit('origin.loaded');
           map.offSetMap($scope.originPos);
-          markers.parseMarkers([{locationlatitude:results.geometry.location.lat(),locationlongitude:results.geometry.location.lng()}]);
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(results.geometry.location.lat(), results.geometry.location.lng()),
+            icon: options.getOptions().markerImage,
+            animation: google.maps.Animation.DROP,
+            title: 'Origin'
+          });
+          markers.addMarker(marker);
+          //markers.parseMarkers([{latitude:results.geometry.location.lat(),longitude:results.geometry.location.lng(),title:'Origin'}]);
         }, function(status){
           $scope.map.setZoom(3);
         });
