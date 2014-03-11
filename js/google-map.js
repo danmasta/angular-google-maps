@@ -687,24 +687,23 @@ app.directive('origin', function($http, map, markers, options){
     restrict:'A',
     controller:'geolocateService',
     link: function($scope, $element, $attributes){
-      $scope.$on('map.loaded', function(){
-        map.geo().code($attributes.origin).then(function(results){
-          $scope.originInfo = results;
-          $scope.originPos = new google.maps.LatLng(results.geometry.location.lat(), results.geometry.location.lng());
-          $scope.$emit('origin.loaded');
-          map.offSetMap($scope.originPos);
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(results.geometry.location.lat(), results.geometry.location.lng()),
-            icon: options.getOptions().markerImage,
-            animation: google.maps.Animation.DROP,
-            title: 'Origin'
-          });
-          markers.addMarker(marker);
-          //markers.parseMarkers([{latitude:results.geometry.location.lat(),longitude:results.geometry.location.lng(),title:'Origin'}]);
-        }, function(status){
-          $scope.map.setZoom(3);
+      if($attributes.origin === 'user'){
+        $scope.$on('geo.complete', function(){
+          map.offSetMap($scope.currentLocation);
         });
-      });
+      } else {
+        $scope.$on('map.loaded', function(){
+          map.geo().code($attributes.origin).then(function(results){
+            $scope.originInfo = results;
+            $scope.originPos = new google.maps.LatLng(results.geometry.location.lat(), results.geometry.location.lng());
+            $scope.$emit('origin.loaded');
+            map.offSetMap($scope.originPos);
+            markers.parseMarkers([{latitude:results.geometry.location.lat(),longitude:results.geometry.location.lng(),title:'Origin'}]);
+          }, function(status){
+            $scope.map.setZoom(3);
+          });
+        });
+      }
     }
   };
 });
