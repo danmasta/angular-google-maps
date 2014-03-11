@@ -1,12 +1,14 @@
 var app = angular.module( 'google-maps', [] );
 
-app.service('markers', [ '$rootScope', '$http', 'options', function($rootScope, $http, options) {
+app.service('markers', [ '$rootScope', '$http', 'options', '$templateCache', function($rootScope, $http, options, $templateCache) {
   
   this.loadMarkers = function(url, params) {
     var _this = this;
-    $http.get(url, { params: params }).success(function(data) {
+    console.log('http request', url, params);
+    if(!url) return;
+    $http.get(url, { params: params, cache: true }).success(function(data) {
       _this.parseMarkers(data);
-      console.log(data);
+      console.log('http response', data);
     });
   };
 
@@ -249,6 +251,10 @@ app.service('map', [ '$rootScope', '$http', '$q', '$window', function($rootScope
 //  });
 //}]);
 
+//app.run(function($templateCache){
+//  $templateCache.put('map-infowindow.html', 'partials/map-infowindow.html');
+//});
+
 app.controller('googleMap', function($rootScope, markers, $http) {
   $rootScope.markers = [];
   $rootScope.isVisible = {};
@@ -285,6 +291,7 @@ app.directive('googleMap', function($rootScope, options, map, markers) {
         $rootScope.infoWindow = new google.maps.InfoWindow();
         $scope.$broadcast('map.loaded');
         $rootScope.isVisible.Map = true;
+        if($attributes.defaultZoom) $rootScope.map.setZoom(parseInt($attributes.defaultZoom));
         google.maps.event.addDomListener(window, 'resize', function() {
           $rootScope.map.setCenter($rootScope.mapCenter);
         });
@@ -341,7 +348,7 @@ app.directive('zoom', function($rootScope) {
 app.directive('infowindow', function($rootScope, map) {
   return{
     restrict: 'A',
-    templateUrl: '/partials/map-infowindow.html',
+    templateUrl: 'partials/map-infowindow.html',
     link: function($scope, $element, $attributes) {
       var _this = this;
       $rootScope.$watchCollection('markers', function(newelems) {
@@ -389,7 +396,7 @@ app.directive('directionService', function($rootScope, options, map, markers) {
 app.directive('directionInfo', function($rootScope) {
   return{
     restrict: 'A',
-    templateUrl: '/partials/map-distanceinfo.html',
+    templateUrl: 'partials/map-distanceinfo.html',
     link: function($scope, $element, $attributes) {
     }
   };
@@ -529,7 +536,7 @@ app.directive('autoCompleteMap', function($rootScope, options, map, $filter, mar
 app.directive('autoCompleteResultsMap', function($rootScope, options, map, markers) {
   return{
     restrict: 'A',
-    templateUrl: '/partials/map-search-result.html',
+    templateUrl: 'partials/map-search-result.html',
     link: function($scope, $element, $attributes) {
       $scope.$watch('mapactivesearchitem', function(newval, oldval) {
         if (newval != oldval) {
@@ -612,7 +619,7 @@ app.directive('testLocationMarkers', function($rootScope, options, map, markers)
 app.directive('locationItems', function($rootScope, options, map, markers){
   return{
     restrict: 'A',
-    templateUrl: '/partials/map-location-items.html'
+    templateUrl: 'partials/map-location-items.html'
   };
 });
 
@@ -651,7 +658,7 @@ app.directive('locationFilter', function($rootScope, options, map, markers){
   return{
     restrict: 'A',
     controller: 'filterLocationControl',
-    templateUrl: '/partials/map-location-filter.html',
+    templateUrl: 'partials/map-location-filter.html',
     link: function($scope, $element, $attributes){
       $scope.addFilter = function(item){
         $scope.regionsfilter = item;
@@ -705,7 +712,7 @@ app.directive('origin', function($http, map, markers, options){
 app.directive('originInfo', function($http, map){
   return{
     restrict:'A',
-    templateUrl:'/partials/map-origin-info.html',
+    templateUrl: 'partials/map-origin-info.html',
     link: function($scope, $element, $attributes){
       function getDistance(){
         function setDistance(){
@@ -777,70 +784,6 @@ app.directive('staticMap', function(){
         };
         $scope.map.setOptions(options);
       });
-    }
-  };
-});
-
-app.directive( 'lazyload', function($rootScope){
-  return{
-    restrict: 'A',
-    link: function($scope, $element, $attributes){
-     
-      $scope.img = new Image();
-      $scope.setStyle = function(url) {
-
-        if ($element[0].nodeName === 'IMG') {
-          $element[0].src = url;
-        } else {
-          $element[0].style.backgroundImage = 'url(' + url + ')';
-          $element[0].style.backgroundSize = 'cover';
-        }
-      };
-
-      $scope.loadAdaptiveImg = function() {
-        var url = $scope.getAdaptiveUrl();
-
-        $scope.img.onload = function() {
-          $scope.setStyle(url);
-        };
-        $scope.img.onerror = function() {
-          $scope.loadDefaultImg();
-        };
-        $scope.img.src = url;
-      };
-
-      $scope.loadDefaultImg = function() {
-        var url = $attributes.img;
-        $scope.img.onload = function() {
-          $scope.setStyle(url);
-        };
-        $scope.img.onerror = function() {
-          throw new Error('No img found, please check source');
-        };
-        $scope.img.src = url;
-      };
-
-      $scope.getAdaptiveUrl = function() {
-        var w = window.outerWidth;
-        var url = $attributes.img.split('.', 2);
-        var newUrl;
-        if(!$attributes.lazyload){
-          if (w < 768) {
-            newUrl = url[0] + '-xs.' + url[1];
-          } else if (w < 992) {
-            newUrl = url[0] + '-sm.' + url[1];
-          } else if (w < 1200) {
-            newUrl = url[0] + '-md.' + url[1];
-          } else {
-            newUrl = $attributes.img;
-          }
-        } else {
-          newUrl = $attributes.img; 
-        }
-        return newUrl;
-      };
-      
-      $scope.loadAdaptiveImg();
     }
   };
 });
