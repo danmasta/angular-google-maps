@@ -346,12 +346,10 @@ app.directive('directionService', function($rootScope, options, map, markers, $t
       $rootScope.$watchCollection('markers', function(newelems, oldval) {
         angular.forEach(newelems, function(value, key) {
           google.maps.event.addListener(value, 'click', function() {
-            //$timeout(function(){
-              map.getDirections().directions().then(function(directions) {
-                $scope.directions = directions;
-                $scope.polyline.setOptions({ path: directions.routes[0].overview_path });
-              });
-            //});
+            map.getDirections().directions().then(function(directions) {
+              $scope.directions = directions;
+              $scope.polyline.setOptions({ path: directions.routes[0].overview_path });
+            });
           });
         });
       });
@@ -609,10 +607,7 @@ app.directive('locationItems', function($rootScope, options, map, markers, $time
 
 app.controller('filterLocationControl', function($rootScope, markers, $scope){
   $scope.regions = [
-    {title: 'All Locations', value:'*'},
-    {title: 'Yolo County', value:'Yolo County'},
-    {title: 'Los Angeles County', value: 'Los Angeles County'},
-    {title: 'Orange County', value: 'Orange County'}
+    {title: 'All Locations', value:'*'}
   ];
   $scope.locationfilter = function(item){
     if(item && item.data){
@@ -628,6 +623,16 @@ app.controller('filterLocationControl', function($rootScope, markers, $scope){
       return found;
     }
   };
+  $scope.$on('marker.add', function(event, data){
+    if(!data.data || !data.data.region) return;
+    var isRegion = false;
+    for(var i = 0; i < $scope.regions.length; i++){
+      if($scope.regions[i].title === data.data.region){
+        isRegion = true;
+      }
+    }
+    if(!isRegion) $scope.regions.push({title:data.data.region, value:data.data.region});
+  });
 });
 
 app.directive('locationSelect', function($rootScope, options, map, markers){
