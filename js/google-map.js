@@ -4,11 +4,9 @@ app.service('markers', [ '$rootScope', '$http', 'options', '$templateCache', fun
   
   this.loadMarkers = function(url, params) {
     var _this = this;
-    console.log('http request', url, params);
     if(!url) return;
     $http.get(url, { params: params, cache: true }).success(function(data) {
       _this.parseMarkers(data);
-      console.log('http response', data);
     });
   };
 
@@ -38,14 +36,12 @@ app.service('markers', [ '$rootScope', '$http', 'options', '$templateCache', fun
 
   this.getMarkerById = function(id) {
     var marker = $rootScope.markers.filter(function(elem, index) {
-      //console.log('marker filter',elem.data.id, elem.data, elem);
       if(!elem.data || !elem.data.id){
         return false;
       } else if(elem.data.id.toString() === id){
         return true; 
       }
     });
-    //console.log('filter return', marker);
     return marker;
   };
 }]);
@@ -235,30 +231,9 @@ app.service('map', [ '$rootScope', '$http', '$q', '$window', function($rootScope
 
 }]);
 
-//angular.module( 'google-maps' ).run(function($rootScope, markers, $http) {
-//  $rootScope.markers = [];
-//  $rootScope.isVisible = {};
-//  console.log('google maps is running');
-//  console.time('gmap render');
-//});
-
-//app.controller('script', ['$http', 'markers', '$rootScope', '$scope', function($rootScope, markers, $scope) {
-//  $.getScript('https://www.google.com/jsapi', function() {
-//    google.load('maps', '3', { other_params: 'libraries=geometry&sensor=false&key=' + apiKey, callback: function() {
-//      //markers.loadMarkers('/locations', {format:'json'});
-//      $scope.$broadcast('script.loaded');
-//    }});
-//  });
-//}]);
-
-//app.run(function($templateCache){
-//  $templateCache.put('map-infowindow.html', 'partials/map-infowindow.html');
-//});
-
 app.controller('googleMap', function($rootScope, markers, $http) {
   $rootScope.markers = [];
   $rootScope.isVisible = {};
-  //markers.loadMarkers();
   console.log('google maps is running');
   console.time('gmap render');
 });
@@ -281,27 +256,25 @@ app.directive('googleMap', function($rootScope, options, map, markers) {
     //controller: 'script',
     controller: 'googleMap',
     link: function($scope, $element, $attributes) {
-      //$scope.$on('script.loaded', function() {
-        if($attributes.preload === 'true'){
-          markers.loadMarkers($attributes.url, $attributes.params);
-        }
-        map.extendMapPrototype();
-        $rootScope.offset = $attributes.offset ? $attributes.offset : false;
-        $rootScope.map = new google.maps.Map($element[0], options.getOptions().mapDefaults);
-        $rootScope.infoWindow = new google.maps.InfoWindow();
-        $scope.$broadcast('map.loaded');
-        $rootScope.isVisible.Map = true;
-        if($attributes.defaultZoom) $rootScope.map.setZoom(parseInt($attributes.defaultZoom));
-        google.maps.event.addDomListener(window, 'resize', function() {
-          $rootScope.map.setCenter($rootScope.mapCenter);
-        });
-        google.maps.event.addListener($rootScope.map, 'idle', function() {
-          console.log('map is idle');
-          $rootScope.mapCenter = $rootScope.map.getCenter();
-          $rootScope.mapZoom = $rootScope.map.getZoom();
-          console.timeEnd('marker click');
-        });
-      //});
+      if($attributes.preload === 'true'){
+        markers.loadMarkers($attributes.url, $attributes.params);
+      }
+      map.extendMapPrototype();
+      $rootScope.offset = $attributes.offset ? $attributes.offset : false;
+      $rootScope.map = new google.maps.Map($element[0], options.getOptions().mapDefaults);
+      $rootScope.infoWindow = new google.maps.InfoWindow();
+      $scope.$broadcast('map.loaded');
+      $rootScope.isVisible.Map = true;
+      if($attributes.defaultZoom) $rootScope.map.setZoom(parseInt($attributes.defaultZoom));
+      google.maps.event.addDomListener(window, 'resize', function() {
+        $rootScope.map.setCenter($rootScope.mapCenter);
+      });
+      google.maps.event.addListener($rootScope.map, 'idle', function() {
+        console.log('map is idle');
+        $rootScope.mapCenter = $rootScope.map.getCenter();
+        $rootScope.mapZoom = $rootScope.map.getZoom();
+        console.timeEnd('marker click');
+      });
       console.timeEnd('gmap render');
             
       $rootScope.$on( 'marker.add', function( event, data, i ){
@@ -673,7 +646,7 @@ app.directive('clusterMarkers', function($rootScope, map, markers){
     restrict:'A',
     link: function($scope, $element, $attributes){
       $scope.$on('map.loaded', function(){
-        $scope.markerCluster = new MarkerClusterer($rootScope.map, $rootScope.markers);
+        $scope.markerCluster = new MarkerClusterer($scope.map, $scope.markers);
       });
       $scope.$on('marker.add', function(event, data, i){
         $scope.markerCluster.addMarker(data);
