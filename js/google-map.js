@@ -253,7 +253,6 @@ app.controller('geolocateService', function($rootScope, $scope, map, options) {
 app.directive('googleMap', function($rootScope, options, map, markers) {
   return{
     restrict: 'A',
-    //controller: 'script',
     controller: 'googleMap',
     link: function($scope, $element, $attributes) {
       if($attributes.preload === 'true'){
@@ -645,9 +644,7 @@ app.directive('clusterMarkers', function($rootScope, map, markers){
   return{
     restrict:'A',
     link: function($scope, $element, $attributes){
-      $scope.$on('map.loaded', function(){
-        $scope.markerCluster = new MarkerClusterer($scope.map, $scope.markers);
-      });
+      $scope.markerCluster = new MarkerClusterer($rootScope.map, $rootScope.markers);
       $scope.$on('marker.add', function(event, data, i){
         $scope.markerCluster.addMarker(data);
       });
