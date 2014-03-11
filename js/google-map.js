@@ -250,7 +250,7 @@ app.controller('geolocateService', function($rootScope, $scope, map, options) {
   });
 });
 
-app.directive('googleMap', function($rootScope, options, map, markers) {
+app.directive('googleMap', function($rootScope, options, map, markers, $timeout) {
   return{
     restrict: 'A',
     controller: 'googleMap',
@@ -286,7 +286,9 @@ app.directive('googleMap', function($rootScope, options, map, markers) {
           };
           google.maps.event.addListener( data, 'click', function() {
             console.time('marker click');
+            //$timeout(function(){
             $rootScope.$apply($rootScope.activeMarker = this);
+            //});
             map.offSetMap(this.position);
             $rootScope.infoWindow.setContent( this.title );
             $rootScope.infoWindow.open( $rootScope.map, this );
@@ -336,7 +338,7 @@ app.directive('infowindow', function($rootScope, map) {
   };
 });
 
-app.directive('directionService', function($rootScope, options, map, markers) {
+app.directive('directionService', function($rootScope, options, map, markers, $timeout) {
   return{
     restrict: 'A',
     controller: 'geolocateService',
@@ -344,10 +346,12 @@ app.directive('directionService', function($rootScope, options, map, markers) {
       $rootScope.$watchCollection('markers', function(newelems, oldval) {
         angular.forEach(newelems, function(value, key) {
           google.maps.event.addListener(value, 'click', function() {
-            map.getDirections().directions().then(function(directions) {
-              $scope.directions = directions;
-              $scope.polyline.setOptions({ path: directions.routes[0].overview_path });
-            });
+            //$timeout(function(){
+              map.getDirections().directions().then(function(directions) {
+                $scope.directions = directions;
+                $scope.polyline.setOptions({ path: directions.routes[0].overview_path });
+              });
+            //});
           });
         });
       });
@@ -588,10 +592,18 @@ app.directive('testLocationMarkers', function($rootScope, options, map, markers)
   };
 });
 
-app.directive('locationItems', function($rootScope, options, map, markers){
+app.directive('locationItems', function($rootScope, options, map, markers, $timeout){
   return{
     restrict: 'A',
-    templateUrl: 'partials/map-location-items.html'
+    templateUrl: 'partials/map-location-items.html',
+    link: function($scope, $element, $attribute){
+      $scope.locationItemClick = function($event,data){
+        $event.preventDefault();
+        $timeout(function(){
+          new google.maps.event.trigger(data, 'click');
+        });
+      };
+    }
   };
 });
 
@@ -644,10 +656,12 @@ app.directive('clusterMarkers', function($rootScope, map, markers){
   return{
     restrict:'A',
     link: function($scope, $element, $attributes){
-      $scope.markerCluster = new MarkerClusterer($rootScope.map, $rootScope.markers);
-      $scope.$on('marker.add', function(event, data, i){
-        $scope.markerCluster.addMarker(data);
-      });
+      if($attributes.clusterMarkers === 'true'){
+        $scope.markerCluster = new MarkerClusterer($rootScope.map, $rootScope.markers);
+        $scope.$on('marker.add', function(event, data, i){
+          $scope.markerCluster.addMarker(data);
+        });
+      }
     }
   };
 });

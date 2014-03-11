@@ -1,10 +1,5 @@
 <div class="col-xs-12 col-sm-6 col-md-3" data-location-item title="{{item.data.title || item.data.name}}" ng-repeat="item in markers | filter:locationfilter">
   <div class="location-item-container">
-    <a class="map" href="#">
-<!--      <span class="map-img" data-lazyload="absolute" data-img="http://maps.google.com/maps/api/staticmap?center={{item.data.latitude || item.data.lat}},{{item.data.longitude || item.data.lng}}&amp;zoom=15&amp;size=300x110&amp;sensor=false"></span>-->
-    </a>
-    <a class="address" href="#">
-      <h3 class="name">{{item.data.title || item.data.name}}</h3>
-    </a>
+    <a href="#" class="name" ng-click="locationItemClick($event,item)"><h5>{{item.data.title || item.data.name}}</h5></a>
   </div>
 </div>

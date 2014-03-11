@@ -12,8 +12,8 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <section data-map-container>
-      <div data-google-map offset="6" default-zoom="10" direction-service streetview-service preload="true" url="data.json" data-origin="orange county, ca" params="" data-cluster-markers="true"></div>
+    <section data-google-map-container>
+      <div data-google-map offset="6" default-zoom="10" direction-service streetview-service preload="true" url="data.json" data-origin="orange county, ca" params=""></div>
       <button test-location-markers ng-click="spamMarkers()" ng-show="isVisible.Map">Load 1k Markers</button>
       <div class="col-xs-12 col-md-3" auto-complete-container="">
         <input type="text" class="form-control" name="search" placeholder="Search Map" autocomplete="off" auto-complete-map ng-model="mapsearch" ng-show="isVisible.Map" />

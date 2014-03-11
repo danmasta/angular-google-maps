@@ -1,5 +1,5 @@
 <div class="left col-xs-7">
-  <div class="title">{{activeMarker.data.name}}</div>
+  <div class="title">{{activeMarker.data.title || activeMarker.data.name}}</div>
 </div>
 <div class="right col-xs-5">
   <a class="streetview" street-view-open ng-show="isVisible.StreetViewOpen" ng-click="openStreetView($event)"><span class="streetview-icon"></span>StreetView</a>
