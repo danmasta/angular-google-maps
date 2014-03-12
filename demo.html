@@ -19,7 +19,7 @@
         <div data-zoom="out" ng-show="isVisible.Map"><i class="fa fa-minus-square"></i></div>
       </div>
       <div street-view-close ng-show="!isVisible.Map" ng-click="closeStreetView($event)">&times;</div>
-    </section>
+    </section>        
     <section>
       <div class="container">
         <select class="form-control" data-location-select ng-model="regionsfilter" ng-options="item as item.title for item in regions" ng-init="regionsfilter = regions[0]"></select>

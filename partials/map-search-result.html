@@ -1,1 +1,1 @@
-<li ng-repeat="result in mapsearchresults" tabindex="{{$index}}" id={{result.data.id}} result-item-location ng-mouseenter="setActiveSearchItem()" ng-mousedown="setMarkerTrigger()">{{result.data.name}}</li>
+<li ng-repeat="result in mapsearchresults" tabindex="{{$index}}" id={{result.data.id}} result-item-location ng-mouseenter="resultItemClick()" ng-mousedown="setMarkerTrigger(result.data.id)">{{result.data.name}}</li>

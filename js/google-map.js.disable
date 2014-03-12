@@ -1,49 +1,44 @@
 var app = angular.module( 'google-maps', [] );
 
-app.service('markers', [ '$http', 'options', '$templateCache', function($http, options, $templateCache) {
+app.service('markers', [ '$rootScope', '$http', 'options', '$templateCache', function($rootScope, $http, options, $templateCache) {
   
-  this.loadMarkers = function(url, params, $scope) {
+  this.loadMarkers = function(url, params) {
     var _this = this;
     if(!url) return;
     $http.get(url, { params: params, cache: true }).success(function(data) {
-      _this.parseMarkers(data, $scope);
+      _this.parseMarkers(data);
     });
   };
 
-  this.parseMarkers = function(data, $scope) {
+  this.parseMarkers = function(data) {
     var _this = this;
     var delay;
-    var $scope = $scope
-    //console.trace('parse markers', $scope);
     angular.forEach(data, function(value, key) {
-      //console.log('preparing marker', $scope);
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(value.latitude || value.lat, value.longitude || value.lng),
-        icon: options.getOptions($scope).markerImage,
+        icon: options.getOptions().markerImage,
         animation: google.maps.Animation.DROP,
         title: value.title || value.name,
         data: value
       });
-      //console.log('marker to be added', $scope);
-      _this.addMarker(marker, key, $scope);
+      _this.addMarker(marker, key);
     });
   };
 
-  this.addMarker = function( marker, i, $scope ) {
-    //console.log('adding marker', $scope);
-    $scope.$broadcast( 'marker.add', marker, i );
-    $scope.markers.push( marker );
+  this.addMarker = function( marker, i ) {
+    $rootScope.$broadcast( 'marker.add', marker, i );
+    $rootScope.markers.push( marker );
   };
 
-  this.getMarkers = function($scope) {
-    return $scope.markers;
+  this.getMarkers = function() {
+    return $rootScope.markers;
   };
 
-  this.getMarkerById = function(id, $scope) {
-    var marker = $scope.markers.filter(function(elem, index) {
+  this.getMarkerById = function(id) {
+    var marker = $rootScope.markers.filter(function(elem, index) {
       if(!elem.data || !elem.data.id){
         return false;
-      } else if(elem.data.id.toString() === id.toString()){
+      } else if(elem.data.id.toString() === id){
         return true; 
       }
     });
@@ -51,9 +46,9 @@ app.service('markers', [ '$http', 'options', '$templateCache', function($http, o
   };
 }]);
 
-app.service('options', [ function() {
+app.service('options', [ '$rootScope', function($rootScope) {
 
-  this.getOptions = function($scope) {
+  this.getOptions = function() {
     var options = {
       mainBounds: new google.maps.LatLngBounds(),
       mapDefaults: {
@@ -70,7 +65,7 @@ app.service('options', [ function() {
         strokeColor: '#4588f7',
         strokeOpacity: 1.0,
         strokeWeight: 5,
-        map: $scope.map
+        map: $rootScope.map
       },
       circleOptions: {
         strokeColor: '#4588f7',
@@ -78,7 +73,7 @@ app.service('options', [ function() {
         strokeWeight: 2,
         fillColor: '#4588f7',
         fillOpacity: 0.2,
-        map: $scope.map,
+        map: $rootScope.map,
         radius: 5000
       },
       panoramaOptions: {
@@ -94,20 +89,61 @@ app.service('options', [ function() {
     return options;
   };
   
+  this.testOptions = function(callback) {
+    var options = {
+      mainBounds: new google.maps.LatLngBounds(),
+      mapDefaults: {
+        zoom: 7,
+        center: new google.maps.LatLng('33.815556', '-117.889723'),
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        disableDefaultUI: true,
+        scaleControl: false,
+        navigationControl: false,
+        scrollwheel: false
+      },
+      markerImage: null,
+      polyLineOptions: {
+        strokeColor: '#4588f7',
+        strokeOpacity: 1.0,
+        strokeWeight: 5,
+        map: $rootScope.map
+      },
+      circleOptions: {
+        strokeColor: '#4588f7',
+        strokeOpacity: 0.5,
+        strokeWeight: 2,
+        fillColor: '#4588f7',
+        fillOpacity: 0.2,
+        map: $rootScope.map,
+        radius: 5000
+      },
+      panoramaOptions: {
+        addressControlOptions: {
+          position: google.maps.ControlPosition.TOP_LEFT
+        },
+        linksControl: false,
+        panControl: true,
+        zoomControl: false,
+        enableCloseButton: false
+      }
+    };
+    return callback(options);
+  };
+
 }]);
 
-app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
+app.service('map', [ '$rootScope', '$http', '$q', '$window', function($rootScope, $http, $q, $window) {
 
-  this.offSetMap = function($scope, latlng) {
-    if ($scope.offset) {
+  this.offSetMap = function(latlng) {
+    if ($rootScope.offset) {
       var w = $window.outerWidth;
       if (w > 991) {
-        $scope.map.panToWithOffset(latlng, -( w / $scope.offset ), 0);
+        $rootScope.map.panToWithOffset(latlng, -( w / $rootScope.offset ), 0);
       } else {
-        $scope.map.panTo(latlng);
+        $rootScope.map.panTo(latlng);
       }
     } else {
-      $scope.map.panTo(latlng);
+      $rootScope.map.panTo(latlng);
     }
   };
 
@@ -127,9 +163,9 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
     };
   };
 
-//  this.apply = function() {
-//    .$apply();
-//  };
+  this.apply = function() {
+    $rootScope.$apply();
+  };
   
   this.geocoder = function(){
     return new google.maps.Geocoder();
@@ -142,14 +178,14 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           defer.resolve(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-          //_this.apply();
+          _this.apply();
         }, function() {
           _this.handleNoGeolocation(defer);
-          //_this.apply();
+          _this.apply();
         });
       } else {
         this.handleNoGeolocation(defer);
-        //this.apply();
+        this.apply();
       }
       return defer.promise;
     };
@@ -158,10 +194,10 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
       _this.geocoder().geocode({'address': data}, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
           defer.resolve(results[0]);
-          //_this.apply();
+          _this.apply();
         } else {
           defer.reject(status);
-         // _this.apply();
+          _this.apply();
         }
       });
       return defer.promise;
@@ -187,13 +223,12 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
     });
   };
 
-  this.getDirections = function($scope) {
+  this.getDirections = function() {
     var _this = this;
     var request = function() {
-      console.log('origin', $scope.originPos);
       return{
-        origin: $scope.currentLocation ? $scope.currentLocation.toUrlValue() : $scope.originPos,
-        destination: $scope.activeMarker.position.toUrlValue(),
+        origin: $rootScope.currentLocation.toUrlValue(),
+        destination: $rootScope.activeMarker.position.toUrlValue(),
         travelMode: google.maps.TravelMode.DRIVING
       };
     };
@@ -202,10 +237,10 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
       new google.maps.DirectionsService().route(request(), function(results, status) {
         if (status === google.maps.DirectionsStatus.OK) {
           defer.resolve(results);
-          //_this.apply();
+          _this.apply();
         } else {
           defer.reject(status);
-          //_this.apply();
+          _this.apply();
         }
       });
       return defer.promise;
@@ -222,10 +257,10 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
       new google.maps.StreetViewService().getPanoramaByLocation(marker.position, 50, function(data, status) {
         if (status === google.maps.StreetViewStatus.OK) {
           defer.resolve(data);
-          //_this.apply();
+          _this.apply();
         } else {
           defer.reject(status);
-          //_this.apply();
+          _this.apply();
         }
       });
       return defer.promise;
@@ -237,138 +272,149 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
 
 }]);
 
-app.controller('googleMapCtrl', function(markers, $http, $scope) {
-  $scope.markers = [];
-  $scope.isVisible = {};
+app.controller('googleMap', function($rootScope, markers, $http) {
+  $rootScope.markers = [];
+  $rootScope.isVisible = {};
   console.log('google maps is running');
   console.time('gmap render');
 });
 
-app.controller('geolocateService', function($scope, map, options) {
+app.controller('geolocateService', function($rootScope, $scope, map, options) {
   $scope.$on('map.loaded', function() {
     map.geo().locate().then(function(position) {
       console.log('geo complete');
-      $scope.currentLocation = position;
-      $scope.circle = new google.maps.Circle(options.getOptions($scope).circleOptions);
-      $scope.polyline = new google.maps.Polyline(options.getOptions($scope).polyLineOptions);
+      $rootScope.currentLocation = position;
+      $scope.circle = new google.maps.Circle(options.getOptions().circleOptions);
+      $scope.polyline = new google.maps.Polyline(options.getOptions().polyLineOptions);
       $scope.$emit('geo.complete');
     });
   });
 });
 
-app.directive('googleMap', function(options, map, markers, $timeout) {
+app.directive('googleMap', function($rootScope, options, map, markers, $timeout) {
   return{
     restrict: 'A',
-    controller: 'googleMapCtrl',
-    //scope:{},
+    controller: 'googleMap',
     link: function($scope, $element, $attributes) {
-      
-      map.extendMapPrototype();
-      $scope.offset = $attributes.offset ? $attributes.offset : false;
-      $scope.map = new google.maps.Map($element[0]);
-      $scope.map.setOptions(options.getOptions($scope).mapDefaults);
       if($attributes.preload === 'true'){
-        markers.loadMarkers($attributes.url, $attributes.params, $scope);
+        markers.loadMarkers($attributes.url, $attributes.params);
       }
-      $scope.infoWindow = new google.maps.InfoWindow();
+      map.extendMapPrototype();
+      $rootScope.offset = $attributes.offset ? $attributes.offset : false;
+      $rootScope.map = new google.maps.Map($element[0], options.testOptions(function(options){
+        console.log('defaults', options.mapDefaults);
+        return options.mapDefaults;
+      }));
+      $rootScope.infoWindow = new google.maps.InfoWindow();
       $scope.$broadcast('map.loaded');
-      $scope.isVisible.Map = true;
-      if($attributes.defaultZoom) $scope.map.setZoom(parseInt($attributes.defaultZoom));
+      $rootScope.isVisible.Map = true;
+      if($attributes.defaultZoom) $rootScope.map.setZoom(parseInt($attributes.defaultZoom));
       google.maps.event.addDomListener(window, 'resize', function() {
-        $scope.map.setCenter($scope.mapCenter);
+        $rootScope.map.setCenter($rootScope.mapCenter);
       });
-      google.maps.event.addListener($scope.map, 'idle', function() {
+      google.maps.event.addListener($rootScope.map, 'idle', function() {
         console.log('map is idle');
-        $scope.mapCenter = $scope.map.getCenter();
-        $scope.mapZoom = $scope.map.getZoom();
+        $rootScope.mapCenter = $rootScope.map.getCenter();
+        $rootScope.mapZoom = $rootScope.map.getZoom();
         console.timeEnd('marker click');
       });
       console.timeEnd('gmap render');
             
-      $scope.$on( 'marker.add', function( event, data, i ){
+      $rootScope.$on( 'marker.add', function( event, data, i ){
         var i = i ? i : 1;
         var delay = 20;
-        var dropPin = function( i ) {
-          return function() {
-            data.setMap( $scope.map );
+          var dropPin = function( i ) {
+            return function() {
+              data.setMap( $rootScope.map );
+            };
           };
-        };
-        google.maps.event.addListener( data, 'click', function() {
-          console.time('marker click');
-          $scope.activeMarker = this;
-          $scope.$broadcast('marker.click', this);
-          map.offSetMap($scope, this.position);
-          $scope.infoWindow.setContent( this.title );
-          $scope.infoWindow.open( $scope.map, this );
-        });
+          google.maps.event.addListener( data, 'click', function() {
+            console.time('marker click');
+            //$timeout(function(){
+            $rootScope.$apply($rootScope.activeMarker = this);
+            //});
+            map.offSetMap(this.position);
+            $rootScope.infoWindow.setContent( this.title );
+            $rootScope.infoWindow.open( $rootScope.map, this );
+          });
         if($attributes.clusterMarkers != 'true'){
           setTimeout( dropPin( i ), i * delay );
         } else {
           dropPin( i );
         }
       });
-      console.log('getoptions', options.getOptions($scope));
+      options.testOptions(function(data){
+        console.log('retrieved options', data);
+      });
     }
-  }
+  };
 });
 
-app.directive('zoom', function() {
+app.directive('zoom', function($rootScope) {
   return{
     restrict: 'A',
-    link: function($scope, $element, $attributes, $controller) {
+    link: function($scope, $element, $attributes) {
       $element.on('click', function(event) {
         event.preventDefault();
         if ($attributes.zoom === 'in') {
-          $scope.map.setZoom($scope.map.getZoom() + 1);
+          $rootScope.map.setZoom($rootScope.map.getZoom() + 1);
         } else if ($attributes.zoom === 'out') {
-          $scope.map.setZoom($scope.map.getZoom() - 1);
+          $rootScope.map.setZoom($rootScope.map.getZoom() - 1);
         }
       });
     }
   };
 });
 
-app.directive('infowindow', function(map) {
+app.directive('infowindow', function($rootScope, map) {
   return{
     restrict: 'A',
     templateUrl: 'partials/map-infowindow.html',
     link: function($scope, $element, $attributes) {
-      $scope.$on('marker.click', function(event, marker){
-        console.log('marker has been clicked, set info window open');
-        $scope.isVisible.Infowindow = true;
+      var _this = this;
+      $rootScope.$watchCollection('markers', function(newelems) {
+        angular.forEach(newelems, function(value, key) {
+          google.maps.event.addListener(value, 'click', function() {
+            $rootScope.$apply(function(){
+              $rootScope.isVisible.Infowindow = true;
+            });
+          });
+        });
       });
     }
   };
 });
 
-app.directive('directionService', function(options, map, markers, $timeout) {
+app.directive('directionService', function($rootScope, options, map, markers, $timeout) {
   return{
     restrict: 'A',
     controller: 'geolocateService',
     link: function($scope, $element, $attributes) {
-      $scope.$on('marker.click', function(event, marker){
-        console.log('marker has been clicked, do some shit', event, marker);
-        map.getDirections($scope).directions().then(function(directions){
-          $scope.directions = directions;
-          $scope.polyline.setOptions({ path: directions.routes[0].overview_path });
+      $rootScope.$watchCollection('markers', function(newelems, oldval) {
+        angular.forEach(newelems, function(value, key) {
+          google.maps.event.addListener(value, 'click', function() {
+            map.getDirections().directions().then(function(directions) {
+              $scope.directions = directions;
+              $scope.polyline.setOptions({ path: directions.routes[0].overview_path });
+            });
+          });
         });
       });
-      
       $scope.$on('geo.complete', function() {
-        $scope.circle.setCenter($scope.currentLocation);
+        $scope.circle.setCenter($rootScope.currentLocation);
         var marker = new google.maps.Marker({
-          position: $scope.currentLocation,
-          icon: options.getOptions($scope).markerImage,
+          position: $rootScope.currentLocation,
+          icon: options.getOptions().markerImage,
           animation: google.maps.Animation.DROP,
           title: 'You are Here'
         });
-        markers.addMarker(marker, null, $scope);
+        markers.addMarker(marker);
       });
     }
   };
 });
 
-app.directive('directionInfo', function() {
+app.directive('directionInfo', function($rootScope) {
   return{
     restrict: 'A',
     templateUrl: 'partials/map-distanceinfo.html',
@@ -377,144 +423,150 @@ app.directive('directionInfo', function() {
   };
 });
 
-app.directive('streetviewService', function(options, map) {
+app.directive('streetviewService', function($rootScope, options, map) {
   return{
     restrict: 'A',
     link: function($scope, $element, $attributes) {
-      $scope.$on('marker.click', function(event, marker){
-        console.log('marker clicked, getting streetview');
-        map.getStreetview(marker).streetview().then(function(data) {
-          $scope.$emit('streetview.success');
-          $scope.map.getStreetView().setOptions( options.getOptions($scope).panoramaOptions );
-          $scope.map.getStreetView().setPano(data.location.pano);
-          $scope.isVisible.StreetViewOpen = true;
-        }, function(data) {
-          $scope.$emit('streetview.fail');
-          $scope.isVisible.StreetViewOpen = false;
+      $rootScope.$watchCollection('markers', function(newelems, oldval) {
+        angular.forEach(newelems, function(value, key) {
+          google.maps.event.addListener(value, 'click', function() {
+            map.getStreetview(this).streetview().then(function(data) {
+              $scope.$emit('streetview.success');
+              $rootScope.map.getStreetView().setOptions( options.getOptions().panoramaOptions );
+              $rootScope.map.getStreetView().setPano(data.location.pano);
+              $rootScope.isVisible.StreetViewOpen = true;
+            }, function(data) {
+              $scope.$emit('streetview.fail');
+              $rootScope.isVisible.StreetViewOpen = false;
+            });
+          });
         });
       });
     }
   };
 });
 
-app.directive('streetViewOpen', function(options, map) {
+app.directive('streetViewOpen', function($rootScope, options, map) {
   return{
     restrict: 'A',
     link: function($scope, $element, $attributes) {
       $scope.openStreetView = function($event){
         $scope.$emit('streetview.open');
-        $scope.map.getStreetView().setVisible(true);
-        $scope.isVisible.Map = false;
-        $scope.isVisible.Infowindow = false;
+        $rootScope.map.getStreetView().setVisible(true);
+        $rootScope.isVisible.Map = false;
+        $rootScope.isVisible.Infowindow = false;
       };
     }
   };
 });
 
-app.directive('streetViewClose', function(options, map) {
+app.directive('streetViewClose', function($rootScope, options, map) {
   return{
     restrict: 'A',
     link: function($scope, $element, $attributes) {
       $scope.closeStreetView = function($event){
         $scope.$emit('streetview.close');
-        $scope.map.getStreetView().setVisible(false);
-        $scope.isVisible.Map = true;
-        $scope.isVisible.Infowindow = true;
+        $rootScope.map.getStreetView().setVisible(false);
+        $rootScope.isVisible.Map = true;
+        $rootScope.isVisible.Infowindow = true;
       };
     }
   };
 });
 
-app.directive('autoCompleteMap', function(options, map, $filter, markers) {
+app.directive('autoCompleteMap', function($rootScope, options, map, $filter, markers) {
   return{
     restrict: 'A',
     link: function($scope, $element, $attributes) {
       $scope.$watch($attributes.ngModel, function(value) {
         if (value && value.length > 1) {
-          $scope.mapsearchresults = $filter('limitTo')($filter('filter')($scope.markers, { data: value }, false), 10);
-          $scope.mapactivesearchitem = null;
+          $scope.mapsearchresults = $filter('limitTo')($filter('filter')($rootScope.markers, { data: value }, false), 10);
+          $rootScope.mapactivesearchitem = null;
         }
       });
       $element.on('focus', function() {
-        console.log('input focused, do something');
-        $scope.$apply(function(){
-          $scope.focus = true;
-          $scope.isVisible.Infowindow = false;
+        $rootScope.$apply(function(){
+          $rootScope.focus = true;
+          $rootScope.isVisible.Infowindow = false;
         });
-        $scope.$broadcast('mapsearch.focus');
+        $rootScope.$broadcast('mapsearch.focus');
       });
       $element.on('blur', function() {
-        console.log('input blured, do something');
-        $scope.$apply(function(){
-          $scope.focus = false;
-          $scope.isVisible.Infowindow = true;
+        $rootScope.$apply(function(){
+          $rootScope.focus = false;
+          $rootScope.isVisible.Infowindow = true;
         });
-        $scope.$broadcast('mapsearch.blur');
+        $rootScope.$broadcast('mapsearch.blur');
       });
       $element.on('keydown', function(event) {
         if (event.which === 38) {
           event.preventDefault();
-          if ($scope.mapactivesearchitem && $scope.mapactivesearchitem.attr('tabindex') != 0) {
-            var prev = $scope.mapactivesearchitem[0].previousSibling;
+          if ($rootScope.mapactivesearchitem && $rootScope.mapactivesearchitem.attr('tabindex') != 0) {
+            var prev = $rootScope.mapactivesearchitem[0].previousSibling;
             if(prev.nodeType != 8){
-              $scope.$apply(function(){
-                $scope.mapactivesearchitem = angular.element(prev);
+              $rootScope.$apply(function(){
+                $rootScope.mapactivesearchitem = angular.element(prev);
               });
             } else {
-              $scope.$apply(function() {
-                $scope.mapactivesearchitem = angular.element(prev.previousSibling);
+              $rootScope.$apply(function() {
+                $rootScope.mapactivesearchitem = angular.element(prev.previousSibling);
               });
             }
           } else {
-            $scope.$apply(function() {
-              $scope.mapactivesearchitem = $scope.lastsearchitem;
+            $rootScope.$apply(function() {
+              $rootScope.mapactivesearchitem = $scope.lastsearchitem;
             });
           }
         } else if (event.which === 40) {
           event.preventDefault();
-          if ($scope.mapactivesearchitem && $scope.mapactivesearchitem.attr('tabindex') != $scope.mapsearchresults.length - 1) {
-            $scope.$apply(function() {
-              $scope.mapactivesearchitem = $scope.mapactivesearchitem.next();
+          if ($rootScope.mapactivesearchitem && $rootScope.mapactivesearchitem.attr('tabindex') != $scope.mapsearchresults.length - 1) {
+            $rootScope.$apply(function() {
+              $rootScope.mapactivesearchitem = $rootScope.mapactivesearchitem.next();
             });
           } else {
-            $scope.$apply(function() {
-              $scope.mapactivesearchitem = $scope.firstsearchitem;
+            $rootScope.$apply(function() {
+              $rootScope.mapactivesearchitem = $scope.firstsearchitem;
             });
           }
         } else if (event.which === 13) {
-          var marker = markers.getMarkerById($scope.mapactivesearchitem.attr('id'), $scope);
+          var marker = markers.getMarkerById($rootScope.mapactivesearchitem.attr('id'));
           new google.maps.event.trigger(marker[0], 'click');
           $element.triggerHandler('blur');
         }
       });
-            
-      $scope.$on('marker.click', function(event, marker){
-        console.log('marker clicked, setting mapsearch');
-        if (marker.data) {
-          $scope.mapsearch = marker.data.name;
-        } else {
-          $scope.mapsearch = 'Your Location';
-        }
+      $rootScope.$watchCollection('markers', function(newelems, oldval) {
+        angular.forEach(newelems, function(value, key) {
+          google.maps.event.addListener(value, 'click', function() {
+            var _this = this;
+            if (this.data) {
+              $scope.$apply(function() {
+                $scope.mapsearch = _this.data.name;
+              });
+            } else {
+              $scope.$apply(function() {
+                $scope.mapsearch = 'Your Location';
+              });
+            }
+          });
+        });
       });
-      
     }
   };
 });
 
-app.directive('autoCompleteResultsMap', function(options, map, markers) {
+app.directive('autoCompleteResultsMap', function($rootScope, options, map, markers) {
   return{
     restrict: 'A',
     templateUrl: 'partials/map-search-result.html',
     link: function($scope, $element, $attributes) {
       $scope.$watch('mapactivesearchitem', function(newval, oldval) {
-        console.log('map active search item changed');
         if (newval != oldval) {
           if (oldval) {
             oldval.removeClass('active');
           }
           if (newval) {
-            var marker = markers.getMarkerById(newval.attr('id'), $scope);
-            map.offSetMap($scope, marker[0].position);
+            var marker = markers.getMarkerById(newval.attr('id'));
+            map.offSetMap(marker[0].position);
             newval.addClass('active');
           }
         }
@@ -526,28 +578,26 @@ app.directive('autoCompleteResultsMap', function(options, map, markers) {
           $scope.lastsearchitem = angular.element(childs[childs.length-1]);
         }
       });
-      $scope.setActiveSearchItem = function($elem){
-        $scope.mapactivesearchitem = $elem;
-      };
-      $scope.setMarkerTrigger = function($index){
-        new google.maps.event.trigger(markers.getMarkerById($index, $scope)[0], 'click');
-      }
     }
   };
 });
 
-app.directive('resultItemLocation', function(options, map, markers, $timeout){
+app.directive('resultItemLocation', function($rootScope, options, map, markers){
   return{
     restrict:'A',
     link:function($scope, $element, $attributes){
-      $scope.resultItemClick = function(){
-        $scope.setActiveSearchItem($element);
-      }
+      $scope.setActiveSearchItem = function($event){
+        $rootScope.mapactivesearchitem = $element;
+      };
+      $element.on('mousedown', function() {
+        var marker = markers.getMarkerById($attributes.id);
+        new google.maps.event.trigger(marker[0], 'click');
+      });
     }
   };
 });
 
-app.directive('testLocationMarkers', function(options, map, markers){
+app.directive('testLocationMarkers', function($rootScope, options, map, markers){
   return{
     restrict:'A',
     link:function($scope, $element, $attributes){
@@ -555,7 +605,7 @@ app.directive('testLocationMarkers', function(options, map, markers){
       $scope.spamMarkers = function(){
         var index = 0;
         console.time('add markers timer');
-        $scope.map.setZoom(5);
+        $rootScope.map.setZoom(5);
         var la = new google.maps.LatLng(40.744656,-74.005966); // Los Angeles, CA
         var ny = new google.maps.LatLng(34.052234,-118.243685); // New York, NY
         var lngSpan = ny.lng() - la.lng();
@@ -569,7 +619,7 @@ app.directive('testLocationMarkers', function(options, map, markers){
         for( var i = count*1000; i < (count+1)*1000; i++ ){
             var marker = new google.maps.Marker({
               position: randomLatlng(),
-              icon: options.getOptions($scope).markerImage,
+              icon: options.getOptions().markerImage,
               animation: google.maps.Animation.DROP,
               title: 'Test Marker ' + i,
               data: {
@@ -577,7 +627,7 @@ app.directive('testLocationMarkers', function(options, map, markers){
                 name: 'Test Marker ' + i
               }
             });
-          markers.addMarker( marker, index++, $scope );
+          markers.addMarker( marker, index++ );
         }
         count++;
         $scope.$emit('markers.added');
@@ -587,7 +637,7 @@ app.directive('testLocationMarkers', function(options, map, markers){
   };
 });
 
-app.directive('locationItems', function(options, map, markers, $timeout){
+app.directive('locationItems', function($rootScope, options, map, markers, $timeout){
   return{
     restrict: 'A',
     templateUrl: 'partials/map-location-items.html',
@@ -602,7 +652,7 @@ app.directive('locationItems', function(options, map, markers, $timeout){
   };
 });
 
-app.controller('filterLocationControl', function(markers, $scope){
+app.controller('filterLocationControl', function($rootScope, markers, $scope){
   $scope.regions = [
     {title: 'All Locations', value:'*'}
   ];
@@ -632,7 +682,7 @@ app.controller('filterLocationControl', function(markers, $scope){
   });
 });
 
-app.directive('locationSelect', function(options, map, markers){
+app.directive('locationSelect', function($rootScope, options, map, markers){
   return{
     restrict: 'A',
     controller: 'filterLocationControl',
@@ -640,7 +690,7 @@ app.directive('locationSelect', function(options, map, markers){
   };
 });
 
-app.directive('locationFilter', function(options, map, markers){
+app.directive('locationFilter', function($rootScope, options, map, markers){
   return{
     restrict: 'A',
     controller: 'filterLocationControl',
@@ -654,12 +704,12 @@ app.directive('locationFilter', function(options, map, markers){
   };
 });
 
-app.directive('clusterMarkers', function(map, markers){
+app.directive('clusterMarkers', function($rootScope, map, markers){
   return{
     restrict:'A',
     link: function($scope, $element, $attributes){
       if($attributes.clusterMarkers === 'true'){
-        $scope.markerCluster = new MarkerClusterer($scope.map, $scope.markers);
+        $scope.markerCluster = new MarkerClusterer($rootScope.map, $rootScope.markers);
         $scope.$on('marker.add', function(event, data, i){
           $scope.markerCluster.addMarker(data);
         });
@@ -675,7 +725,7 @@ app.directive('origin', function($http, map, markers, options){
     link: function($scope, $element, $attributes){
       if($attributes.origin === 'user'){
         $scope.$on('geo.complete', function(){
-          map.offSetMap($scope, $scope.currentLocation);
+          map.offSetMap($scope.currentLocation);
         });
       } else {
         $scope.$on('map.loaded', function(){
@@ -683,8 +733,8 @@ app.directive('origin', function($http, map, markers, options){
             $scope.originInfo = results;
             $scope.originPos = new google.maps.LatLng(results.geometry.location.lat(), results.geometry.location.lng());
             $scope.$emit('origin.loaded');
-            map.offSetMap($scope, $scope.originPos);
-            markers.parseMarkers([{latitude:results.geometry.location.lat(),longitude:results.geometry.location.lng(),title:'Origin'}], $scope);
+            map.offSetMap($scope.originPos);
+            markers.parseMarkers([{latitude:results.geometry.location.lat(),longitude:results.geometry.location.lng(),title:'Origin'}]);
           }, function(status){
             $scope.map.setZoom(3);
           });
