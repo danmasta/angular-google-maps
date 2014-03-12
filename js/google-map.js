@@ -12,11 +12,8 @@ app.service('markers', [ '$http', 'options', '$templateCache', function($http, o
 
   this.parseMarkers = function(data, $scope) {
     var _this = this;
-    var delay;
     var $scope = $scope
-    //console.trace('parse markers', $scope);
     angular.forEach(data, function(value, key) {
-      //console.log('preparing marker', $scope);
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(value.latitude || value.lat, value.longitude || value.lng),
         icon: options.getOptions($scope).markerImage,
@@ -24,13 +21,11 @@ app.service('markers', [ '$http', 'options', '$templateCache', function($http, o
         title: value.title || value.name,
         data: value
       });
-      //console.log('marker to be added', $scope);
       _this.addMarker(marker, key, $scope);
     });
   };
 
   this.addMarker = function( marker, i, $scope ) {
-    //console.log('adding marker', $scope);
     $scope.$broadcast( 'marker.add', marker, i );
     $scope.markers.push( marker );
   };
@@ -127,10 +122,6 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
     };
   };
 
-//  this.apply = function() {
-//    .$apply();
-//  };
-  
   this.geocoder = function(){
     return new google.maps.Geocoder();
   };
@@ -142,34 +133,26 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           defer.resolve(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-          //_this.apply();
         }, function() {
           _this.handleNoGeolocation(defer);
-          //_this.apply();
         });
       } else {
         this.handleNoGeolocation(defer);
-        //this.apply();
       }
       return defer.promise;
     };
     var geocode = function(data) {
-      console.log('geocode data', data);
       _this.geocoder().geocode({'address': data}, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
           defer.resolve(results[0]);
-          //_this.apply();
         } else {
           defer.reject(status);
-         // _this.apply();
         }
       });
       return defer.promise;
     };
     var geodesic = function(a, b) {
-      // get distance between points in meters
       var getDistance = google.maps.geometry.spherical.computeDistanceBetween(a, b);
-      // convert to miles
       defer.resolve((getDistance * 0.000621371).toFixed(2));
       return defer.promise;
     };
@@ -190,7 +173,6 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
   this.getDirections = function($scope) {
     var _this = this;
     var request = function() {
-      console.log('origin', $scope.originPos);
       return{
         origin: $scope.currentLocation ? $scope.currentLocation.toUrlValue() : $scope.originPos,
         destination: $scope.activeMarker.position.toUrlValue(),
@@ -202,10 +184,8 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
       new google.maps.DirectionsService().route(request(), function(results, status) {
         if (status === google.maps.DirectionsStatus.OK) {
           defer.resolve(results);
-          //_this.apply();
         } else {
           defer.reject(status);
-          //_this.apply();
         }
       });
       return defer.promise;
@@ -307,7 +287,6 @@ app.directive('googleMap', function(options, map, markers, $timeout) {
           dropPin( i );
         }
       });
-      console.log('getoptions', options.getOptions($scope));
     }
   }
 });
@@ -334,7 +313,6 @@ app.directive('infowindow', function(map) {
     templateUrl: 'partials/map-infowindow.html',
     link: function($scope, $element, $attributes) {
       $scope.$on('marker.click', function(event, marker){
-        console.log('marker has been clicked, set info window open');
         $scope.isVisible.Infowindow = true;
       });
     }
@@ -347,7 +325,6 @@ app.directive('directionService', function(options, map, markers, $timeout) {
     controller: 'geolocateService',
     link: function($scope, $element, $attributes) {
       $scope.$on('marker.click', function(event, marker){
-        console.log('marker has been clicked, do some shit', event, marker);
         map.getDirections($scope).directions().then(function(directions){
           $scope.directions = directions;
           $scope.polyline.setOptions({ path: directions.routes[0].overview_path });
@@ -371,9 +348,7 @@ app.directive('directionService', function(options, map, markers, $timeout) {
 app.directive('directionInfo', function() {
   return{
     restrict: 'A',
-    templateUrl: 'partials/map-distanceinfo.html',
-    link: function($scope, $element, $attributes) {
-    }
+    templateUrl: 'partials/map-distanceinfo.html'
   };
 });
 
@@ -382,7 +357,6 @@ app.directive('streetviewService', function(options, map) {
     restrict: 'A',
     link: function($scope, $element, $attributes) {
       $scope.$on('marker.click', function(event, marker){
-        console.log('marker clicked, getting streetview');
         map.getStreetview(marker).streetview().then(function(data) {
           $scope.$emit('streetview.success');
           $scope.map.getStreetView().setOptions( options.getOptions($scope).panoramaOptions );
@@ -489,9 +463,8 @@ app.directive('autoCompleteMap', function(options, map, $filter, markers) {
       });
             
       $scope.$on('marker.click', function(event, marker){
-        console.log('marker clicked, setting mapsearch');
         if (marker.data) {
-          $scope.mapsearch = marker.data.name;
+          $scope.mapsearch = marker.data.title || marker.data.name;
         } else {
           $scope.mapsearch = 'Your Location';
         }
@@ -507,7 +480,6 @@ app.directive('autoCompleteResultsMap', function(options, map, markers) {
     templateUrl: 'partials/map-search-result.html',
     link: function($scope, $element, $attributes) {
       $scope.$watch('mapactivesearchitem', function(newval, oldval) {
-        console.log('map active search item changed');
         if (newval != oldval) {
           if (oldval) {
             oldval.removeClass('active');
@@ -556,7 +528,7 @@ app.directive('testLocationMarkers', function(options, map, markers){
         var index = 0;
         console.time('add markers timer');
         $scope.map.setZoom(5);
-        var la = new google.maps.LatLng(40.744656,-74.005966); // Los Angeles, CA
+        var la = new google.maps.LatLng(40.744656,-74.005966);  // Los Angeles, CA
         var ny = new google.maps.LatLng(34.052234,-118.243685); // New York, NY
         var lngSpan = ny.lng() - la.lng();
         var latSpan = ny.lat() - la.lat();
