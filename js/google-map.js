@@ -1,7 +1,6 @@
 var app = angular.module( 'google-maps', [] );
 
 app.service('markers', [ '$http', 'options', '$templateCache', function($http, options, $templateCache) {
-  
   this.loadMarkers = function(url, params, $scope) {
     var _this = this;
     if(!url) return;
@@ -47,7 +46,6 @@ app.service('markers', [ '$http', 'options', '$templateCache', function($http, o
 }]);
 
 app.service('options', [ function() {
-
   this.getOptions = function($scope) {
     var options = {
       mainBounds: new google.maps.LatLngBounds(),
@@ -88,11 +86,9 @@ app.service('options', [ function() {
     };
     return options;
   };
-  
 }]);
 
 app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
-
   this.offSetMap = function($scope, latlng) {
     if ($scope.offset) {
       var w = $window.outerWidth;
@@ -212,7 +208,6 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
       streetview: streetview
     };
   };
-
 }]);
 
 app.controller('googleMapCtrl', function(markers, $http, $scope) {
@@ -441,58 +436,6 @@ app.directive('autoCompleteMap', function(options, map, $filter, markers, $timeo
           });
         }
       };
-      
-//      $element.on('focus', function() {
-//        $scope.$apply(function(){
-//          $scope.focus = true;
-//          $scope.isVisible.Infowindow = false;
-//        });
-//        $scope.$broadcast('mapsearch.focus');
-//      });
-//      $element.on('blur', function() {
-//        $scope.$apply(function(){
-//          $scope.focus = false;
-//          $scope.isVisible.Infowindow = true;
-//        });
-//        $scope.$broadcast('mapsearch.blur');
-//      });
-//      $element.on('keydown', function(event) {
-//        if (event.which === 38) {
-//          event.preventDefault();
-//          if ($scope.mapactivesearchitem && $scope.mapactivesearchitem.attr('tabindex') != 0) {
-//            var prev = $scope.mapactivesearchitem[0].previousSibling;
-//            if(prev.nodeType != 8){
-//              $scope.$apply(function(){
-//                $scope.mapactivesearchitem = angular.element(prev);
-//              });
-//            } else {
-//              $scope.$apply(function() {
-//                $scope.mapactivesearchitem = angular.element(prev.previousSibling);
-//              });
-//            }
-//          } else {
-//            $scope.$apply(function() {
-//              $scope.mapactivesearchitem = $scope.lastsearchitem;
-//            });
-//          }
-//        } else if (event.which === 40) {
-//          event.preventDefault();
-//          if ($scope.mapactivesearchitem && $scope.mapactivesearchitem.attr('tabindex') != $scope.mapsearchresults.length - 1) {
-//            $scope.$apply(function() {
-//              $scope.mapactivesearchitem = $scope.mapactivesearchitem.next();
-//            });
-//          } else {
-//            $scope.$apply(function() {
-//              $scope.mapactivesearchitem = $scope.firstsearchitem;
-//            });
-//          }
-//        } else if (event.which === 13) {
-//          var marker = markers.getMarkerById($scope.mapactivesearchitem.attr('id'), $scope);
-//          new google.maps.event.trigger(marker[0], 'click');
-//          $element.triggerHandler('blur');
-//        }
-//      });
-            
       $scope.$on('marker.click', function(event, marker){
         if (marker.data) {
           $scope.mapsearch = marker.data.title || marker.data.name;
@@ -500,7 +443,6 @@ app.directive('autoCompleteMap', function(options, map, $filter, markers, $timeo
           $scope.mapsearch = 'Your Location';
         }
       });
-      
     }
   };
 });
@@ -638,8 +580,7 @@ app.controller('filterLocationControl', function(markers, $scope){
 app.directive('locationSelect', function(options, map, markers){
   return{
     restrict: 'A',
-    controller: 'filterLocationControl',
-    require:'ngModel'
+    controller: 'filterLocationControl'
   };
 });
 
