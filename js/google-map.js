@@ -1,6 +1,7 @@
 var app = angular.module( 'google-maps', [] );
 
 app.service('markers', [ '$http', 'options', '$templateCache', function($http, options, $templateCache) {
+  
   this.loadMarkers = function(url, params, $scope) {
     var _this = this;
     if(!url) return;
@@ -43,9 +44,11 @@ app.service('markers', [ '$http', 'options', '$templateCache', function($http, o
     });
     return marker;
   };
+  
 }]);
 
 app.service('options', [ function() {
+  
   this.getOptions = function($scope) {
     var options = {
       mainBounds: new google.maps.LatLngBounds(),
@@ -86,9 +89,11 @@ app.service('options', [ function() {
     };
     return options;
   };
+  
 }]);
 
 app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
+  
   this.offSetMap = function($scope, latlng) {
     if ($scope.offset) {
       var w = $window.outerWidth;
@@ -208,6 +213,7 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
       streetview: streetview
     };
   };
+  
 }]);
 
 app.controller('googleMapCtrl', function(markers, $http, $scope) {
