@@ -202,10 +202,8 @@ app.service('map', [ '$http', '$q', '$window', function($http, $q, $window) {
       new google.maps.StreetViewService().getPanoramaByLocation(marker.position, 50, function(data, status) {
         if (status === google.maps.StreetViewStatus.OK) {
           defer.resolve(data);
-          //_this.apply();
         } else {
           defer.reject(status);
-          //_this.apply();
         }
       });
       return defer.promise;
@@ -240,9 +238,7 @@ app.directive('googleMap', function(options, map, markers, $timeout) {
   return{
     restrict: 'A',
     controller: 'googleMapCtrl',
-    //scope:{},
     link: function($scope, $element, $attributes) {
-      
       map.extendMapPrototype();
       $scope.offset = $attributes.offset ? $attributes.offset : false;
       $scope.map = new google.maps.Map($element[0]);
@@ -264,7 +260,6 @@ app.directive('googleMap', function(options, map, markers, $timeout) {
         console.timeEnd('marker click');
       });
       console.timeEnd('gmap render');
-            
       $scope.$on( 'marker.add', function( event, data, i ){
         var i = i ? i : 1;
         var delay = 20;
@@ -330,7 +325,6 @@ app.directive('directionService', function(options, map, markers, $timeout) {
           $scope.polyline.setOptions({ path: directions.routes[0].overview_path });
         });
       });
-      
       $scope.$on('geo.complete', function() {
         $scope.circle.setCenter($scope.currentLocation);
         var marker = new google.maps.Marker({
@@ -410,7 +404,6 @@ app.directive('autoCompleteMap', function(options, map, $filter, markers) {
         }
       });
       $element.on('focus', function() {
-        console.log('input focused, do something');
         $scope.$apply(function(){
           $scope.focus = true;
           $scope.isVisible.Infowindow = false;
@@ -418,7 +411,6 @@ app.directive('autoCompleteMap', function(options, map, $filter, markers) {
         $scope.$broadcast('mapsearch.focus');
       });
       $element.on('blur', function() {
-        console.log('input blured, do something');
         $scope.$apply(function(){
           $scope.focus = false;
           $scope.isVisible.Infowindow = true;
