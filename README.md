@@ -1,6 +1,8 @@
 # Simple Angular Google Maps
 A very easy to use google maps application for angular.js. At only 12kb minified, this is one of the smallest and most powerful google map integrations out there.
 
+## Edit: This plugin is going through major changes, it will be updated/ replaced soon. Current version is not stable or production ready.
+
 ## What this plugin does
 Creates a google map element on your page. Configuration can be done with html tags and attributes, and can be styled with css.
 
@@ -145,8 +147,8 @@ id: 25 //string, integer - unique id of object, used in search service
     <td><pre>geo()</pre></td>
     <td>Returns a promise object with one function <code>locate()</code> which is used to run a callback after the future object has returned. Usage would look like this:
     <pre>
-    map.geo().locate().then( function( position ) { 
-      //do stuff 
+    map.geo().locate().then( function( position ) {
+      //do stuff
     });</pre>
     Note that this function has a fallback in case geolocation is not supported or fails, in either case the callback parameter is a <a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#LatLng">google.maps.LatLng class</a>
   </tr>
@@ -154,8 +156,8 @@ id: 25 //string, integer - unique id of object, used in search service
     <td><pre>getDirections()</pre></td>
     <td>Returns a promise object with one function <code>directions()</code> which is used to run a callback after the future object has returned. Usage would look like this:
     <pre>
-    map.getDirections().directions().then( function( directions ) { 
-      //do stuff 
+    map.getDirections().directions().then( function( directions ) {
+      //do stuff
     });</pre>
     Callback parameter is a <a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#DirectionsResult">google.maps.DirectionsResult object</a>
   </tr>
@@ -163,8 +165,8 @@ id: 25 //string, integer - unique id of object, used in search service
     <td><pre>getStreetview( marker )</pre></td>
     <td>Accepts a Google maps marker object and returns a promise object with one function <code>streetview()</code> which is used to run a callback after the future object has returned. Usage would look like this:
     <pre>
-    map.getStreetview( marker ).streetview().then( function( position ) { 
-      //do stuff 
+    map.getStreetview( marker ).streetview().then( function( position ) {
+      //do stuff
     });</pre>
     Callback parameter is a <a href="https://developers.google.com/maps/documentation/javascript/reference?csw=1#StreetViewPanoramaData">google.maps.StreetViewPanoramaData object</a>
   </tr>
@@ -201,7 +203,7 @@ id: 25 //string, integer - unique id of object, used in search service
     <li><code>[url]</code> - the url to load json marker resources from</li>
     <li><code>[params]</code> - search parameters to include in the marker request</li>
     </ul>
-    </td> 
+    </td>
   </tr>
   <tr>
     <td><pre>zoom</pre></td>
